@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1",
+  "observations": [{ "observation_id": "report-check" }],
+  "evidence": [{
+    "evidence_id": "report-body",
+    "observation_id": "report-check",
+    "digest": "sha256:50a598f2be0a9455ab3e4a627e81167f9dbbb07605db0e9da545f00995bc6461",
+    "byte_length": 17,
+    "media_type": "text/plain"
+  }],
+  "claims": [{
+    "claim_id": "report-is-accessible",
+    "predicate": "text.exact.v1",
+    "parameters": { "expected": "report_accessible", "observation_id": "report-check" },
+    "evidence_refs": ["report-body"]
+  }],
+  "obligations": []
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1",
+  "observations": [{ "observation_id": "captured-body" }],
+  "evidence": [{
+    "evidence_id": "body",
+    "observation_id": "captured-body",
+    "digest": "sha256:070c160a6299c5438070b1aa737b14fc2992ed49579c14264884886a5876f971",
+    "byte_length": 8,
+    "media_type": "text/plain"
+  }],
+  "claims": [{
+    "claim_id": "said-ok",
+    "predicate": "text.exact.v1",
+    "parameters": { "expected": "ok", "observation_id": "captured-body" },
+    "evidence_refs": ["body"]
+  }],
+  "obligations": []
+}

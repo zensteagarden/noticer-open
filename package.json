@@ -1,0 +1,54 @@
+{
+  "name": "noticer-public-verifier",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Intention-guided, offline verification of disclosed evidence packets, exact-text checks and signed receipts.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "bin": {
+    "noticer-check": "./src/cli.mjs"
+  },
+  "scripts": {
+    "doctor": "node src/doctor.mjs",
+    "test": "node --test",
+    "verify:fixtures": "node --test test/verifier.test.mjs",
+    "check:release": "node scripts/check-release.mjs",
+    "example": "node examples/first-check.mjs",
+    "check:local": "node src/doctor.mjs && node --test",
+    "demo:guided": "node examples/guided-first-run.mjs --demo",
+    "guide": "node examples/guided-first-run.mjs"
+  },
+  "files": [
+    "src",
+    "test",
+    "examples",
+    "fixtures",
+    "scripts/check-release.mjs",
+    "docs/PUBLIC_SCOPE.md",
+    "docs/PROTOCOL.md",
+    "README.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "LICENSE",
+    "NOTICE",
+    "AGENT_GUIDE.md",
+    "src/intention.mjs",
+    "docs/INTENTION_GUIDE.md",
+    "docs/SUCCESS_CONTRACT.md"
+  ],
+  "exports": {
+    ".": "./src/index.mjs",
+    "./intention": "./src/intention.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zensteagarden/noticer-open.git"
+  },
+  "homepage": "https://github.com/zensteagarden/noticer-open#readme",
+  "bugs": {
+    "url": "https://github.com/zensteagarden/noticer-open/issues"
+  }
+}
