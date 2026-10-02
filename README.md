@@ -112,3 +112,11 @@ A green local suite is not a security certification. Windows/macOS execution, co
 Apache-2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
 The private Noticer service and private investigation/learning system are not part of this distribution.
+
+## The story and working with me
+
+Noticer began with a question: **what would we need to observe before believing “done”?** I’m sharing the build story and opening the public verifier for other builders to inspect and extend.
+
+If you need help checking one automation’s intended result, I offer a scoped workflow review: an explicit success condition, an evidence report, and repair/recheck priorities. Scope and price are agreed first; unavailable evidence stays unresolved.
+
+[Read the story and hiring offer](THE_STORY.md), visit [noticer.io](https://noticer.io), or contact [hello@noticer.io](mailto:hello@noticer.io).
