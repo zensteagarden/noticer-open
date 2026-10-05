@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Noticer Page Capture",
+  "version": "0.1.0",
+  "description": "Export disclosed page text as a Noticer packet bundle. This extension does not verdict.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Noticer Page Capture"
+  },
+  "permissions": ["activeTab", "scripting", "downloads"]
+}

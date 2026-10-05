@@ -1,0 +1,19 @@
+{
+  "plugin_id": "chrome-page-capture",
+  "plugin_version": "0.1.0",
+  "trunk": "noticer-public-verifier",
+  "schema_version": "0.1",
+  "intention": "The page shows ready.",
+  "expected_text": "ready",
+  "captured_text": "loading",
+  "page_url": "https://example.invalid/status",
+  "page_title": "Status",
+  "captured_at": "2026-10-05T18:00:00.000Z",
+  "does_not_establish": [
+    "who wrote the page",
+    "that the page still says this",
+    "that an external write happened",
+    "authorization to act"
+  ],
+  "verdict": null
+}

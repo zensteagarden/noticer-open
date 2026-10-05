@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Noticer Page Capture</title>
+  <style>
+    body {
+      margin: 0;
+      width: 360px;
+      padding: 16px;
+      font: 18px/1.4 system-ui, sans-serif;
+      color: #14110e;
+      background: #f3efe6;
+    }
+    h1 { font-size: 20px; margin: 0 0 8px; }
+    p, label { display: block; margin: 12px 0 4px; }
+    .note { font-size: 15px; }
+    input, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+      font: inherit;
+      padding: 8px;
+    }
+    button { margin-top: 12px; }
+    #status { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Noticer Page Capture</h1>
+  <p class="note">This captures disclosed text. It does not decide ALLOW or DENY. Unpack the file and run the Noticer trunk.</p>
+  <label for="intention">What are you trying to have happen?</label>
+  <textarea id="intention" rows="2">The page shows the state I named.</textarea>
+  <label for="expected">Exact text the trunk should require</label>
+  <input id="expected" value="ready">
+  <button id="capture" type="button">Capture selection, or page text</button>
+  <p id="status" role="status">No capture yet. Not a verdict.</p>
+  <script src="popup.js"></script>
+</body>
+</html>
