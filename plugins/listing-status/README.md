@@ -1,22 +1,33 @@
-# Listing status
+# Listing line
 
 Plugin id: `listing-status`
 
-Host: Node producer. It takes the status line a realtor named, plus the disclosed selection from before the change and after it, and writes a schema 0.1 directory packet. It does not verdict. It does not log into an MLS. Chrome page capture can supply the two selections. This plugin does not collect the page.
+One app for four line kinds: `status`, `price`, `offer`, `disclosure`. The kind is a label. The trunk ignores it. Each check is still the whole disclosed before line and the whole disclosed after line.
 
-Observable proxy: `artifact.text.exact.v1` on the whole disclosed before selection and the whole disclosed after selection.
+Host: Node producer. It does not verdict. It does not log into an MLS. Chrome page capture can supply a page selection. A saved email can supply an offer line. This plugin does not collect either.
 
-That proxy does not establish that the MLS accepted the change, that a buyer saw it, that the page still says this, who wrote the page, that an external write happened, or authorization to act. There is no absence policy. "Coming Soon is gone" is not a verdict unless the whole after selection equals the status line they named.
+Observable proxy: `artifact.text.exact.v1`.
 
-## Unpack, then let the trunk verdict
+That proxy does not establish that the MLS accepted the change, that a buyer saw it, that the page still says this, that an offer was delivered, that a disclosure form is complete, who wrote the line, that an external write happened, or authorization to act. There is no absence policy. One ALLOW is one line, not all four.
+
+## Name the line, then let the trunk verdict
 
 ```sh
-node plugins/listing-status/unpack.mjs plugins/listing-status/fixtures/after-says-active.bundle.json ./listing-packet
-node src/cli.mjs verify ./listing-packet --policy packet.integrity.v1
+node plugins/listing-status/guide.mjs --kind price --before "Price · $450,000" --after "Price · $425,000" --expect-before "Price · $450,000" --expect-after "Price · $425,000" --out ./price.bundle.json
+node plugins/listing-status/unpack.mjs ./price.bundle.json ./listing-packet
 node src/cli.mjs verify ./listing-packet --policy artifact.text.exact.v1
 ```
 
-Integrity ALLOW only means both selections arrived intact. Exact-text ALLOW means the before selection equals the named before line and the after selection equals the named status line. A portal toast that says Active while the after selection still says Coming Soon is DENY on exact-text and can still ALLOW on integrity.
+`guide.mjs` writes a bundle. It does not verdict.
+
+Shipped false-greens:
+
+- status: portal said Active, selection still Coming Soon
+- price: portal said reduced, selection still the old price
+- offer: sent toast said the new offer, line still the old price
+- disclosure: upload toast said posted, line still says missing
+
+Integrity ALLOW only means both lines arrived intact. Exact-text DENY means the after line is not the line they named.
 
 ## Check the producer
 

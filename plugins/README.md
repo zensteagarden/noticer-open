@@ -6,7 +6,7 @@ Noticer stays the trunk. A use case is a plugin that emits a disclosed packet. T
 | --- | --- | --- | --- |
 | `chrome-page-capture` | Chrome extension, Manifest V3 | page-text bundle, unpacked to a directory packet | no |
 | `app-update` | Node producer | before and after text snapshots, unpacked to a directory packet | no |
-| `listing-status` | Node producer | before and after listing selections, unpacked to a directory packet | no |
+| `listing-status` | Node producer | one disclosed line: status, price, offer, or disclosure | no |
 
 MCP and API adapters are the same contract when you need them. Do not fork `src/verify.mjs` into those hosts.
 

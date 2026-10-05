@@ -1,0 +1,15 @@
+{
+  "plugin_id": "listing-status",
+  "plugin_version": "0.1.0",
+  "trunk": "noticer-public-verifier",
+  "schema_version": "0.1",
+  "line_kind": "offer",
+  "intention": "The disclosed offer line is Offer · $420,000 · close 2026-11-02 · earnest $5,000.",
+  "listing_url": "",
+  "portal_note": "Offer sent.",
+  "before_text": "Offer · $410,000 · close 2026-11-02 · earnest $5,000",
+  "after_text": "Offer · $410,000 · close 2026-11-02 · earnest $5,000",
+  "expected_before": "Offer · $410,000 · close 2026-11-02 · earnest $5,000",
+  "expected_after": "Offer · $420,000 · close 2026-11-02 · earnest $5,000",
+  "verdict": null
+}

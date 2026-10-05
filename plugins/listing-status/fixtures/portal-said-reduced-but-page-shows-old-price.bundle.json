@@ -1,0 +1,15 @@
+{
+  "plugin_id": "listing-status",
+  "plugin_version": "0.1.0",
+  "trunk": "noticer-public-verifier",
+  "schema_version": "0.1",
+  "line_kind": "price",
+  "intention": "The disclosed price line is Price · $425,000.",
+  "listing_url": "https://example.invalid/listing/425",
+  "portal_note": "Price reduced.",
+  "before_text": "Price · $450,000",
+  "after_text": "Price · $450,000",
+  "expected_before": "Price · $450,000",
+  "expected_after": "Price · $425,000",
+  "verdict": null
+}

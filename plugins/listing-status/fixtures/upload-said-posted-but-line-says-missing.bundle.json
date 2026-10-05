@@ -1,0 +1,15 @@
+{
+  "plugin_id": "listing-status",
+  "plugin_version": "0.1.0",
+  "trunk": "noticer-public-verifier",
+  "schema_version": "0.1",
+  "line_kind": "disclosure",
+  "intention": "The disclosed disclosure line is Agency disclosure posted.",
+  "listing_url": "https://example.invalid/listing/425",
+  "portal_note": "Disclosure uploaded.",
+  "before_text": "Agency disclosure missing",
+  "after_text": "Agency disclosure missing",
+  "expected_before": "Agency disclosure missing",
+  "expected_after": "Agency disclosure posted",
+  "verdict": null
+}
