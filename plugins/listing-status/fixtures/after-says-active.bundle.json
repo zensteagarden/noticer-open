@@ -1,0 +1,14 @@
+{
+  "plugin_id": "listing-status",
+  "plugin_version": "0.1.0",
+  "trunk": "noticer-public-verifier",
+  "schema_version": "0.1",
+  "intention": "The disclosed status line is Active · $425,000.",
+  "listing_url": "https://example.invalid/listing/425",
+  "portal_note": "Listing marked Active.",
+  "before_text": "Coming Soon · $425,000",
+  "after_text": "Active · $425,000",
+  "expected_before": "Coming Soon · $425,000",
+  "expected_after": "Active · $425,000",
+  "verdict": null
+}
