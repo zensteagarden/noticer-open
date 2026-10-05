@@ -1,0 +1,13 @@
+{
+  "plugin_id": "app-update",
+  "plugin_version": "0.1.0",
+  "trunk": "noticer-public-verifier",
+  "schema_version": "0.1",
+  "intention": "The disclosed after text is ready.",
+  "release_note": "Status is now ready.",
+  "before_text": "loading",
+  "after_text": "ready",
+  "expected_before": "loading",
+  "expected_after": "ready",
+  "verdict": null
+}
