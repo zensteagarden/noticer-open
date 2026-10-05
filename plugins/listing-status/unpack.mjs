@@ -5,6 +5,8 @@ import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+const LINE_KINDS = new Set(["status", "price", "offer", "disclosure"]);
+
 function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
 }
@@ -38,6 +40,7 @@ export function unpackBundle(bundle, dest) {
   if (typeof bundle.expected_before !== "string" || typeof bundle.expected_after !== "string") {
     throw new Error("MALFORMED_BUNDLE");
   }
+  if (!LINE_KINDS.has(bundle.line_kind)) throw new Error("MALFORMED_BUNDLE");
   if (bundle.verdict != null) throw new Error("PRODUCER_MUST_NOT_VERDICT");
   const before = Buffer.from(bundle.before_text, "utf8");
   const after = Buffer.from(bundle.after_text, "utf8");
@@ -72,6 +75,7 @@ export function unpackBundle(bundle, dest) {
     extensions: {
       plugin_id: "listing-status",
       plugin_version: "0.1.0",
+      line_kind: bundle.line_kind,
       intention: bundle.intention,
       listing_url: typeof bundle.listing_url === "string" ? bundle.listing_url : "",
       portal_note: typeof bundle.portal_note === "string" ? bundle.portal_note : "",

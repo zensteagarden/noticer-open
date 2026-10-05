@@ -17,6 +17,7 @@ const active = {
   plugin_version: "0.1.0",
   trunk: "noticer-public-verifier",
   schema_version: "0.1",
+  line_kind: "status",
   intention: "The disclosed status line is Active · $425,000.",
   listing_url: "https://example.invalid/listing/425",
   portal_note: "Listing marked Active.",
@@ -72,6 +73,29 @@ test("shipped false-green fixture unpacks to DENY on exact-text", () => {
   } finally {
     rmSync(dest, { recursive: true, force: true });
   }
+});
+
+test("price, offer, and disclosure false-greens DENY on exact-text in the same app", () => {
+  const files = [
+    "./fixtures/portal-said-reduced-but-page-shows-old-price.bundle.json",
+    "./fixtures/sent-said-new-offer-but-line-is-old.bundle.json",
+    "./fixtures/upload-said-posted-but-line-says-missing.bundle.json",
+  ];
+  for (const file of files) {
+    const bundle = JSON.parse(readFileSync(new URL(file, import.meta.url), "utf8"));
+    const dest = packetFrom(bundle);
+    try {
+      const exact = verifyPacket(loadPacket(dest), { policyId: "artifact.text.exact.v1" });
+      assert.equal(exact.verdict, "DENY");
+    } finally {
+      rmSync(dest, { recursive: true, force: true });
+    }
+  }
+});
+
+test("a missing line kind is refused", () => {
+  const { line_kind, ...rest } = active;
+  assert.throws(() => unpackBundle(rest, mkdtempSync(join(tmpdir(), "noticer-listing-"))), /MALFORMED_BUNDLE/);
 });
 
 test("producer does not import the trunk verifier or an MLS client", () => {
