@@ -10,7 +10,13 @@ Observable proxy: `artifact.text.exact.v1`.
 
 That proxy does not establish that the MLS accepted the change, that a buyer saw it, that the page still says this, that an offer was delivered, that a disclosure form is complete, who wrote the line, that an external write happened, or authorization to act. There is no absence policy. One ALLOW is one line, not all four.
 
-## Name the line, then let the trunk verdict
+## The sentence the realtor needs
+
+```sh
+node plugins/listing-status/check.mjs --expect "Price · $425,000" --public "Price · $450,000"
+```
+
+This builds the packet, asks the trunk, and prints one sentence. `Match. You can tell the seller.` or `Not yet. The page still says ...`. It does not show integrity, a line kind, or an exit code. The before line is not collected on this screen. The check is whether the copied public line equals the line they meant to announce.
 
 ```sh
 node plugins/listing-status/guide.mjs --kind price --before "Price · $450,000" --after "Price · $425,000" --expect-before "Price · $450,000" --expect-after "Price · $425,000" --out ./price.bundle.json
