@@ -2,6 +2,17 @@
 
 **Your automation says it succeeded. Noticer checks.**
 
+## Start here
+
+- **Use Noticer with an agent:** install [Noticer Receipt Maker for MCP](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-mcp-v0.1.0). Follow the [installation and data-handling guide](https://github.com/zensteagarden/noticer-open/releases/download/noticer-mcp-v0.1.0/README.md). This local stdio connector requires operator-provisioned access to a compatible Noticer API and an assigned check capability; installation does not create that access.
+- **Try the offline verifier:** follow the Node.js quick start below. It checks supplied evidence packets locally without an account, API key or network access.
+
+[Official MCP Registry listing](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/0.1.0) · [Setup help](mailto:hello@noticer.io)
+
+The MCP connector supports configured JSON equality checks and assigned pinned GitHub checks. Review the prepared scope before running a check, and keep credentials out of chat. See the installation guide for supported hosts and prerequisites.
+
+## Offline public verifier
+
 Noticer starts one step earlier than most automation tools: **what are you actually trying to have happen?**
 
 The public project helps turn a human intention into an explicit Success Contract, then independently verifies disclosed evidence under small deterministic rules. The model or agent may help clarify the goal; it does not author the verifier's verdict.
