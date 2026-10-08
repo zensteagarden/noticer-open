@@ -1,0 +1,68 @@
+{
+  "manifest_version": "0.4",
+  "name": "noticer-commercial-mcp",
+  "display_name": "Noticer Commercial Receipts (POSIX preview)",
+  "version": "0.3.0-dev.20261008",
+  "description": "POSIX-only public JSON receipt checks; existing Link wallet required for paid receipts.",
+  "author": {
+    "name": "John Daly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zensteagarden/noticer-open.git"
+  },
+  "homepage": "https://noticer.io",
+  "server": {
+    "type": "uv",
+    "entry_point": "sales_mcp.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--frozen",
+        "--directory",
+        "${__dirname}",
+        "sales_mcp.py"
+      ],
+      "env": {
+        "NOTICER_COMMERCIAL_CONFIG_FILE": "${user_config.config_file}",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      }
+    }
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "linux"
+    ],
+    "runtimes": {
+      "python": ">=3.10"
+    }
+  },
+  "user_config": {
+    "config_file": {
+      "type": "file",
+      "title": "Advanced private configuration (optional)",
+      "description": "Leave empty for guided first-run setup. Existing users may select an absolute private0600 config file.",
+      "required": false,
+      "default": ""
+    }
+  },
+  "license": "Apache-2.0",
+  "privacy_policies": [
+    "https://noticer-mpp-ee54698-production.up.railway.app/purchase/privacy",
+    "https://link.com/privacy"
+  ],
+  "tools_generated": true,
+  "_meta": {
+    "io.noticer.release": {
+      "status": "public-preview",
+      "license_scope_approval_pending": false,
+      "live_buyer_acceptance": false,
+      "windows_supported": false,
+      "macos_runtime_tested": false,
+      "guidedLocalSetup": true,
+      "publicSigningKeyId": "noticer-82e8c8f8b588173a79cd"
+    }
+  }
+}

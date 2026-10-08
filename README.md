@@ -4,12 +4,13 @@
 
 ## Start here
 
-- **Use Noticer with an agent:** install [Noticer Receipt Maker for MCP](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-mcp-v0.1.0). Follow the [installation and data-handling guide](https://github.com/zensteagarden/noticer-open/releases/download/noticer-mcp-v0.1.0/README.md). This local stdio connector requires operator-provisioned access to a compatible Noticer API and an assigned check capability; installation does not create that access.
+- **Commercial receipt checks:** see the [commercial MCP preview and installation guide](mcp-commercial/0.3.0-dev.20261008/README.md). This POSIX-only client checks an explicitly authorized public HTTPS JSON predicate with a separate known-good control. It connects without an existing config file, then asks for consent before local setup and commerce enrollment. Five eligible checks are free; later eligible receipt access costs USD 1 with separate approval through the caller’s existing Link wallet.
+- **Existing operator-provisioned integrations:** [MCP 0.1.0](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-mcp-v0.1.0) remains the legacy owner-API connector. Its [installation guide](https://github.com/zensteagarden/noticer-open/releases/download/noticer-mcp-v0.1.0/README.md) requires assigned API access; it does not provide the new self-service commerce flow.
 - **Try the offline verifier:** follow the Node.js quick start below. It checks supplied evidence packets locally without an account, API key or network access.
 
-[Official MCP Registry listing](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/0.1.0) · [Setup help](mailto:hello@noticer.io)
+The commercial client has passed fresh Linux/UV installation, offline protocol checks, and mocked end-to-end payment tests. No real buyer payment is claimed. macOS runtime testing remains outstanding; native Windows is unsupported. Keep credentials out of chat and review the frozen scope before running a check. A verified receipt never executes a downstream action.
 
-The MCP connector supports configured JSON equality checks and assigned pinned GitHub checks. Review the prepared scope before running a check, and keep credentials out of chat. See the installation guide for supported hosts and prerequisites.
+[Existing MCP Registry listing (0.1.0)](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/0.1.0) · [Setup help](mailto:hello@noticer.io)
 
 ## Offline public verifier
 
