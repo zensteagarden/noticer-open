@@ -51,7 +51,7 @@ node examples/guided-first-run.mjs
 
 It asks four short questions and reflects the Success Contract back before you confirm it. Confirmation clarifies the check; it **does not authorize any external action**.
 
-Read [the intention guide](docs/INTENTION_GUIDE.md), [Success Contract v1](docs/SUCCESS_CONTRACT.md), and [the agent guide](AGENT_GUIDE.md) if you want to connect Noticer to ChatGPT, Claude, Cursor or another agent. Keep the agent outside the deterministic verdict path.
+Read [the intention guide](docs/INTENTION_GUIDE.md), [Success Contract v1](docs/SUCCESS_CONTRACT.md), and [the agent guide](mcp-commercial/AGENT_GUIDE.md) if you want to connect Noticer to ChatGPT, Claude, Cursor or another agent. Keep the agent outside the deterministic verdict path.
 
 ## Run the verifier directly
 
