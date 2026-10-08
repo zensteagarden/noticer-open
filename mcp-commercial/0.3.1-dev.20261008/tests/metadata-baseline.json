@@ -1,0 +1,337 @@
+{
+  "noticer_commercial_setup": {
+    "inputSchema": {
+      "properties": {},
+      "title": "noticer_commercial_setupArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_commercial_setupDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  "noticer_commercial_account": {
+    "inputSchema": {
+      "properties": {},
+      "title": "noticer_commercial_accountArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_commercial_accountDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  "noticer_prepare_receipt": {
+    "inputSchema": {
+      "properties": {
+        "check_label": {
+          "title": "Check Label",
+          "type": "string"
+        },
+        "scope": {
+          "additionalProperties": true,
+          "title": "Scope",
+          "type": "object"
+        }
+      },
+      "required": [
+        "check_label",
+        "scope"
+      ],
+      "title": "noticer_prepare_receiptArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_prepare_receiptDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  "noticer_run_receipt": {
+    "inputSchema": {
+      "properties": {
+        "check_label": {
+          "title": "Check Label",
+          "type": "string"
+        },
+        "obligation_hash": {
+          "title": "Obligation Hash",
+          "type": "string"
+        },
+        "confirmed": {
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "no_spend_terms_confirmed": {
+          "title": "No Spend Terms Confirmed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "check_label",
+        "obligation_hash",
+        "confirmed",
+        "no_spend_terms_confirmed"
+      ],
+      "title": "noticer_run_receiptArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_run_receiptDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  "noticer_receipt_status": {
+    "inputSchema": {
+      "properties": {
+        "check_label": {
+          "title": "Check Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "check_label"
+      ],
+      "title": "noticer_receipt_statusArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_receipt_statusDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": true,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  },
+  "noticer_get_verified_receipt": {
+    "inputSchema": {
+      "properties": {
+        "check_label": {
+          "title": "Check Label",
+          "type": "string"
+        },
+        "decision_ref": {
+          "title": "Decision Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "check_label",
+        "decision_ref"
+      ],
+      "title": "noticer_get_verified_receiptArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_get_verified_receiptDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  "noticer_enroll_commerce": {
+    "inputSchema": {
+      "properties": {
+        "owner_authorized": {
+          "title": "Owner Authorized",
+          "type": "boolean"
+        },
+        "commerce_scope_accepted": {
+          "title": "Commerce Scope Accepted",
+          "type": "boolean"
+        },
+        "terms_accepted": {
+          "title": "Terms Accepted",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "owner_authorized",
+        "commerce_scope_accepted",
+        "terms_accepted"
+      ],
+      "title": "noticer_enroll_commerceArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_enroll_commerceDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  "noticer_payment_challenge": {
+    "inputSchema": {
+      "properties": {
+        "check_label": {
+          "title": "Check Label",
+          "type": "string"
+        },
+        "merchant_account": {
+          "title": "Merchant Account",
+          "type": "string"
+        },
+        "network_id": {
+          "title": "Network Id",
+          "type": "string"
+        },
+        "amount": {
+          "title": "Amount",
+          "type": "integer"
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "string"
+        },
+        "confirmed": {
+          "title": "Confirmed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "check_label",
+        "merchant_account",
+        "network_id",
+        "amount",
+        "currency",
+        "confirmed"
+      ],
+      "title": "noticer_payment_challengeArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_payment_challengeDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": true
+    }
+  },
+  "noticer_pay_with_existing_link": {
+    "inputSchema": {
+      "properties": {
+        "check_label": {
+          "title": "Check Label",
+          "type": "string"
+        },
+        "amount": {
+          "title": "Amount",
+          "type": "integer"
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "string"
+        },
+        "confirmed": {
+          "title": "Confirmed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "check_label",
+        "amount",
+        "currency",
+        "confirmed"
+      ],
+      "title": "noticer_pay_with_existing_linkArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_pay_with_existing_linkDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": false,
+      "openWorldHint": true
+    }
+  },
+  "noticer_initialize_local": {
+    "inputSchema": {
+      "properties": {
+        "owner_authorized": {
+          "title": "Owner Authorized",
+          "type": "boolean"
+        },
+        "enable_existing_link": {
+          "default": false,
+          "title": "Enable Existing Link",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "owner_authorized"
+      ],
+      "title": "noticer_initialize_localArguments",
+      "type": "object"
+    },
+    "outputSchema": {
+      "additionalProperties": true,
+      "title": "noticer_initialize_localDictOutput",
+      "type": "object"
+    },
+    "annotations": {
+      "title": null,
+      "readOnlyHint": false,
+      "destructiveHint": false,
+      "idempotentHint": true,
+      "openWorldHint": false
+    }
+  }
+}

@@ -1,0 +1,3 @@
+# Direct dependency versions actually used for offline tests; not a lock file.
+mcp==1.29.0
+cryptography==50.0.0

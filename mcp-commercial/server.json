@@ -1,0 +1,41 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.zensteagarden/noticer",
+  "title": "Noticer Expected Result Checks",
+  "description": "Check public JSON with a known-good control before acting. 5 free checks; paid receipts $1.",
+  "version": "0.3.1-dev.20261008",
+  "repository": {
+    "url": "https://github.com/zensteagarden/noticer-open",
+    "source": "github",
+    "subfolder": "mcp-commercial/0.3.1-dev.20261008"
+  },
+  "websiteUrl": "https://github.com/zensteagarden/noticer-open/blob/main/mcp-commercial/AGENT_GUIDE.md",
+  "packages": [
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.1-dev.20261008/noticer-commercial-mcp-0.3.1-dev.20261008.mcpb",
+      "version": "0.3.1-dev.20261008",
+      "fileSha256": "d5fb5bf62cc9682fb6f3aa3dc837cabd79a85ffe1d1a0ed8aeed70537b409183",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "status": "public-preview",
+      "supportedPlatforms": [
+        "linux",
+        "darwin"
+      ],
+      "nativeWindowsSupported": false,
+      "macosRuntimeTested": false,
+      "guidedLocalSetup": true,
+      "toolCount": 10,
+      "metadataRevision": "agent-call-triggers-and-guide",
+      "runtimeArtifactUnchanged": false,
+      "verificationAndPaymentBehaviorUnchanged": true,
+      "liveBuyerPaymentVerified": false
+    }
+  }
+}

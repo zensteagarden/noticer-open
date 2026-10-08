@@ -1,0 +1,14 @@
+{
+  "claim_ref": "order-123",
+  "questioned": {
+    "url": "https://api.example.com/orders/order-123",
+    "extract": "$.status == \"shipped\"",
+    "claim_id_path": "$.id"
+  },
+  "control": {
+    "url": "https://api.example.com/orders/control",
+    "extract": "$.status == \"shipped\""
+  },
+  "deadline_seconds": 60,
+  "authorized_public_read": false
+}

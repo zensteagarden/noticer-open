@@ -1,0 +1,7 @@
+[project]
+name = "noticer-commercial-mcp"
+version = "0.3.1.dev20261008"
+description = "POSIX-only Noticer commercial buyer connector and receipt gate"
+requires-python = ">=3.10"
+dependencies = ["mcp==1.29.0", "cryptography==50.0.0"]
+license = "Apache-2.0"
