@@ -16,6 +16,54 @@ Do not use it for private or authenticated APIs, arbitrary web pages, arbitrary 
 
 Verify the MCPB SHA256 against the exact published Registry record or release checksums before installation.
 
+### Linux with uv (tested), no GUI host needed
+
+Requires `uv`, `curl`, `unzip`, `sha256sum` and Python 3.10+. The install directory must be writable, because uv creates `.venv` inside it on first run.
+
+```sh
+VER=0.3.1-dev.20261008
+DIR="$HOME/.local/share/noticer-mcp/$VER"
+mkdir -p "$DIR" && cd "$DIR"
+curl -fsSLO "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v$VER/noticer-commercial-mcp-$VER.mcpb"
+echo "d5fb5bf62cc9682fb6f3aa3dc837cabd79a85ffe1d1a0ed8aeed70537b409183  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
+unzip -q "noticer-commercial-mcp-$VER.mcpb"
+```
+
+Optional smoke test (starts the server, lists its tools and exits; creates no state and makes no Noticer request):
+
+```sh
+printf '%s\n' \
+ '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+ '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+ '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+ | NOTICER_COMMERCIAL_CONFIG_FILE= uv run --frozen --quiet --directory "$DIR" sales_mcp.py 2>/dev/null \
+ | python3 -c 'import sys,json
+for line in sys.stdin:
+    m=json.loads(line)
+    if m.get("id")==1: print("initialized:", m["result"]["serverInfo"])
+    if m.get("id")==2: print(len(m["result"]["tools"]), "tools:", ", ".join(t["name"] for t in m["result"]["tools"]))'
+```
+
+You should see `10 tools: noticer_commercial_setup, …`.
+
+### MCP host config (`mcpServers` JSON for Claude Desktop/Cursor-style hosts)
+
+Replace `/home/YOU` with your absolute home directory, since hosts don't expand `$HOME`:
+
+```json
+{
+  "mcpServers": {
+    "noticer": {
+      "command": "uv",
+      "args": ["run", "--frozen", "--quiet", "--directory", "/home/YOU/.local/share/noticer-mcp/0.3.1-dev.20261008", "sales_mcp.py"],
+      "env": { "NOTICER_COMMERCIAL_CONFIG_FILE": "" }
+    }
+  }
+}
+```
+
+Then ask your agent to call `noticer_commercial_setup` and continue with step 1 below.
+
 This is a local stdio connector, not a remote HTTP MCP endpoint. Linux/UV installation is tested; macOS runtime is not tested and native Windows is unsupported. Initialization and listing the ten tools need no pre-existing config or credentials. The optional advanced config setting defaults to empty. Never paste credentials into conversation or tool arguments.
 
 1. Call `noticer_commercial_setup` to learn the setup state and canonical terms location.

@@ -16,6 +16,56 @@ Optionally consent to finding an already installed trusted Link CLI during local
 
 Next review the service /start terms and explicitly approve commerce enrollment. Local setup is not enrollment or payment consent. Existing advanced users can still select their own private config using origin, private_directory, custody_key_file and trusted_public_key_file, with optional tenant_key_file, expected_build_sha and link_cli_path. Advanced configuration preserves its explicitly chosen trust; the default flow enforces the bundled public pin.
 
+Headless Linux with uv (tested) does not need a GUI host. The same commands are in [AGENT_GUIDE.md](../AGENT_GUIDE.md) › Linux with uv. macOS runtime is untested; native Windows is unsupported.
+
+### Linux with uv (tested), no GUI host needed
+
+Requires `uv`, `curl`, `unzip`, `sha256sum` and Python 3.10+. The install directory must be writable, because uv creates `.venv` inside it on first run.
+
+```sh
+VER=0.3.1-dev.20261008
+DIR="$HOME/.local/share/noticer-mcp/$VER"
+mkdir -p "$DIR" && cd "$DIR"
+curl -fsSLO "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v$VER/noticer-commercial-mcp-$VER.mcpb"
+echo "d5fb5bf62cc9682fb6f3aa3dc837cabd79a85ffe1d1a0ed8aeed70537b409183  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
+unzip -q "noticer-commercial-mcp-$VER.mcpb"
+```
+
+Optional smoke test (starts the server, lists its tools and exits; creates no state and makes no Noticer request):
+
+```sh
+printf '%s\n' \
+ '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+ '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+ '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+ | NOTICER_COMMERCIAL_CONFIG_FILE= uv run --frozen --quiet --directory "$DIR" sales_mcp.py 2>/dev/null \
+ | python3 -c 'import sys,json
+for line in sys.stdin:
+    m=json.loads(line)
+    if m.get("id")==1: print("initialized:", m["result"]["serverInfo"])
+    if m.get("id")==2: print(len(m["result"]["tools"]), "tools:", ", ".join(t["name"] for t in m["result"]["tools"]))'
+```
+
+You should see `10 tools: noticer_commercial_setup, …`.
+
+### MCP host config (`mcpServers` JSON for Claude Desktop/Cursor-style hosts)
+
+Replace `/home/YOU` with your absolute home directory, since hosts don't expand `$HOME`:
+
+```json
+{
+  "mcpServers": {
+    "noticer": {
+      "command": "uv",
+      "args": ["run", "--frozen", "--quiet", "--directory", "/home/YOU/.local/share/noticer-mcp/0.3.1-dev.20261008", "sales_mcp.py"],
+      "env": { "NOTICER_COMMERCIAL_CONFIG_FILE": "" }
+    }
+  }
+}
+```
+
+Then ask your agent to call `noticer_commercial_setup`.
+
 ## Ten tools
 
 Discovery, consent-gated local setup, enrollment, account, prepare, run, status, challenge, Link payment, and verified receipt. Scope is an explicitly authorized public HTTPS JSON predicate and a different known-good control on the same host. Confirm exact frozen scope before run. Five eligible initial checks; exact entitlement is server-controlled. Later eligible receipt access is one USD1 payment with separate owner/Link approval. Poll at most every three seconds.
