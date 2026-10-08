@@ -12,7 +12,7 @@ Do not use it for private or authenticated APIs, arbitrary web pages, arbitrary 
 
 ## Install and connect
 
-[Download the commercial MCPB](https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.1-dev.20261008/noticer-commercial-mcp-0.3.1-dev.20261008.mcpb) into an MCPB 0.4 host with UV support. This release installs a new package, version 0.3.1-dev.20261008, including the updated server instructions and tool descriptions. The previous 0.3.0-dev.20261008 release remains unchanged.
+[Download the commercial MCPB](https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.0-dev.20261008/noticer-commercial-mcp-0.3.0-dev.20261008.mcpb) into an MCPB 0.4 host with UV support. The current published install is version 0.3.0-dev.20261008. Version 0.3.1-dev.20261008 is prepared but publication is pending; its updated runtime instructions and tool descriptions are not yet in this download. The scope, prices and approval boundaries described below apply to the existing published client.
 
 Verify the MCPB SHA256 against the exact published Registry record or release checksums before installation.
 
@@ -67,6 +67,6 @@ After the free allowance, an eligible completed receipt costs USD 1. There is no
 
 ## Discovery limits
 
-The official Registry publishes installation metadata for downstream catalogs. Its search filters server names, not description keywords. Catalog ingestion, installation, model selection and recommendations are separate steps; this guide makes the supported use clearer but does not guarantee traffic or automatic discovery. This release improves server instructions and tool descriptions without changing tool names, input/output schemas, verification/payment behavior or prices.
+The official Registry publishes installation metadata for downstream catalogs. Its search filters server names, not description keywords. Catalog ingestion, installation, model selection and recommendations are separate steps; this guide makes the supported use clearer but does not guarantee traffic or automatic discovery. The pending 0.3.1 release improves server instructions and tool descriptions without changing tool names, input/output schemas, verification/payment behavior or prices. This guide does not imply that those runtime text changes have already shipped.
 
 Sources for discovery behavior: [official Registry API](https://github.com/modelcontextprotocol/registry/blob/main/docs/reference/api/official-registry-api.md), [Registry ecosystem](https://modelcontextprotocol.io/registry/about), and [MCP tool discovery](https://modelcontextprotocol.io/specification/2025-11-25/server/tools).
