@@ -6,7 +6,7 @@ import { canonicalBytes, digestOf, evaluationDigest } from "./canonical.mjs";
 import { LIMITS, LIMITS_VERSION } from "./limits.mjs";
 
 export { LIMITS, LIMITS_VERSION };
-export const VERIFIER_BUILD = "noticer-public-verifier@0.1.0";
+export const VERIFIER_BUILD = "noticer-public-verifier@0.1.1-dev.20261009";
 export const SOURCE_DIGEST_COVERS = ["canonical.mjs", "limits.mjs", "packet.mjs", "parse.mjs", "receipt.mjs", "verify.mjs"];
 const ARTIFACT_FILES = SOURCE_DIGEST_COVERS;
 
@@ -84,8 +84,21 @@ export function policyDigest(policyId) {
   return digestOf(canonicalBytes(POLICIES[policyId]));
 }
 
+const CALLER_EXPECTED_POLICIES = new Set(["artifact.text.exact.v1"]);
+
+export function assertExpectedTextOption(policyId, expectedText) {
+  if (expectedText === undefined) return;
+  if (typeof expectedText !== "string") {
+    throw new TypeError("expectedText must be a string");
+  }
+  if (!CALLER_EXPECTED_POLICIES.has(policyId)) {
+    throw new TypeError(`expectedText is only valid with artifact.text.exact.v1, not ${policyId}`);
+  }
+}
+
 export function verifyPacket(loaded, options = {}) {
   const policyId = options.policyId || "packet.integrity.v1";
+  assertExpectedTextOption(policyId, options.expectedText);
   try {
     if (options.injectFault === "before-checks") throw new Error("injected");
     const result = evaluate(loaded, policyId, options);
@@ -131,7 +144,7 @@ function evaluate(loaded, policyId, options) {
   }
   if (policyId === "adjudication.control.v1") return unsupportedAdjudication();
   const policy = POLICIES[policyId];
-  if (policyId === "artifact.text.exact.v1") return artifactText(loaded, policy);
+  if (policyId === "artifact.text.exact.v1") return artifactText(loaded, policy, options);
   if (policyId === "destination.capture.v1") return destinationCapture(loaded, policy, options);
   if (policyId === "packet.integrity.v1") return integrity(loaded, policy);
   return baseResult(policyId, "INCONCLUSIVE", "policy", ["UNSUPPORTED_CHECK"], []);
@@ -181,9 +194,37 @@ function destinationCapture(loaded, policy, options) {
   return result;
 }
 
-function artifactText(loaded, policy) {
+function artifactText(loaded, policy, options) {
   const checks = commonChecks(loaded, true);
+  if (typeof options.expectedText === "string") {
+    checks.push(callerExpectedCheck(loaded, options.expectedText));
+  }
   return fromChecks(policy, checks, "artifact.text");
+}
+
+function callerExpectedCheck(loaded, expectedText) {
+  const claims = (loaded.manifest.claims ?? []).filter((item) => item.predicate === "text.exact.v1");
+  if (claims.length === 0) {
+    return { check_id: "caller.expected.v1", status: "UNKNOWN", reason: "MISSING_EVIDENCE", required: true, detail: "no exact-text claim" };
+  }
+  for (const claim of claims) {
+    const ref = claim.evidence_refs?.[0];
+    const evidence = (loaded.manifest.evidence ?? []).find((item) => item.evidence_id === ref);
+    const bytes = evidence ? loaded.blobs.get(evidence.digest) : null;
+    if (!bytes) {
+      return { check_id: "caller.expected.v1", status: "UNKNOWN", reason: "MISSING_EVIDENCE", required: true, detail: claim.claim_id };
+    }
+    let text;
+    try {
+      text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    } catch {
+      return { check_id: "caller.expected.v1", status: "FAIL", reason: "CONTRACT_MISMATCH", required: true, detail: "invalid-utf8" };
+    }
+    if (text !== expectedText) {
+      return { check_id: "caller.expected.v1", status: "FAIL", reason: "CONTRACT_MISMATCH", required: true, detail: claim.claim_id };
+    }
+  }
+  return pass("caller.expected.v1", "caller expected text");
 }
 
 function commonChecks(loaded, textRequired) {
@@ -355,6 +396,7 @@ function inputCommitment(loaded, policyId, options) {
     policy_id: policyId,
     policy_version: policy?.version ?? null,
     policy_digest: policy ? policyDigest(policyId) : null,
+    ...(typeof options.expectedText === "string" ? { caller_expected_text: options.expectedText } : {}),
     verifier_build: VERIFIER_BUILD,
     verifier_source_digest: VERIFIER_SOURCE_DIGEST,
     source_digest_covers: SOURCE_DIGEST_COVERS,

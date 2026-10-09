@@ -12,7 +12,7 @@ Do not use it for private or authenticated APIs, arbitrary web pages, arbitrary 
 
 ## Install and connect
 
-[Download the commercial MCPB](https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.1-dev.20261008/noticer-commercial-mcp-0.3.1-dev.20261008.mcpb) into an MCPB 0.4 host with UV support. The current published install is version 0.3.1-dev.20261008, with updated runtime instructions and tool descriptions. Scope, prices and approval boundaries are unchanged.
+[Download the commercial MCPB](https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.1-dev.20261008/noticer-commercial-mcp-0.3.1-dev.20261008.mcpb) into an MCPB 0.4 host with UV support. The current published install is version 0.3.1-dev.20261008, with updated runtime instructions and tool descriptions. Scope, prices and approval boundaries are unchanged. Do not use GitHub’s Latest release button for this client. GitHub currently marks the older 0.1.0 owner-API connector as Latest because 0.3.1 is a pre-release.
 
 Verify the MCPB SHA256 against the exact published Registry record or release checksums before installation.
 

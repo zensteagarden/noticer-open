@@ -6,7 +6,7 @@ This source is the Noticer Public Verifier, not the private hosted service or in
 
 Packet structure, artifact integrity, issuer authenticity, evidence for a particular claim, authorization to act, and observation of an action's actual result are different questions. This starter checks the first four only within the limited, disclosed rules below. It provides no action authorization or live destination observer.
 
-`packet.integrity.v1` checks the implemented packet structure, references and supplied blob hashes. `artifact.text.exact.v1` additionally requires a declared exact-text claim to match the supplied evidence bytes. Required failure is DENY; missing required bytes are INCONCLUSIVE; ALLOW requires the required checks to complete and pass. Optional failures remain visible without silently changing the chosen policy.
+`packet.integrity.v1` checks the implemented packet structure, references and supplied blob hashes. `artifact.text.exact.v1` additionally requires a declared exact-text claim to match the supplied evidence bytes. When the caller also supplies `expectedText`, those bytes must match that caller value. A self-consistent packet that does not match the caller’s contract is DENY. Required failure is DENY; missing required bytes are INCONCLUSIVE; ALLOW requires the required checks to complete and pass. Optional failures remain visible without silently changing the chosen policy.
 
 `adjudication.control.v1` is unsupported. Public PROVED and DISPROVED are disabled. A private conclusion dependent on undisclosed reasoning can only be treated as an issuer assertion, not an independently reproduced public conclusion.
 
@@ -26,7 +26,7 @@ Canonical JSON is a safe-integer subset, not full RFC 8785 conformance. Original
 
 Only the public source, disclosed formats/rules, synthetic fixtures, examples, tests and contributor documentation belong in this starter. It excludes service source, database evidence, billing, credentials, customer data, private discovery/learning mechanics, internal handoffs, vault history and repository history. The full internal boundary document is intentionally not shipped; this file is the public-facing scope statement.
 
-This is development source prepared locally. No remote repository, hosted beta, security certification or npm release is established by these files.
+The public source is this GitHub repository. The commercial MCP connector is published as GitHub pre-release `noticer-commercial-mcp-v0.3.1-dev.20261008`. GitHub’s Latest release is still the legacy 0.1.0 owner-API connector; do not treat Latest as 0.3.1. This tree still has no npm publication. A green local suite is not a security certification. The private hosted engine is not included.
 
 ## Intention guidance
 

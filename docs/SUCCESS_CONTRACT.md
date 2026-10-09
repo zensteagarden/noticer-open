@@ -14,4 +14,8 @@ Fields:
 
 The current helper accepts only the two enabled public policies: `packet.integrity.v1` and `artifact.text.exact.v1`.
 
+For `artifact.text.exact.v1`, `observable_proxy.expected_text` is the caller’s declared expectation. Pass it into verification with `verifyAgainstContract` or `verifyPacket(..., { policyId, expectedText })`. The packet’s own claim is not a substitute for that caller value.
+
 A confirmed contract means only that the user confirmed the wording presented to them. It does not prove identity, legal consent, account authority, or authorization to call a tool. Applications that need those properties must implement them separately.
+
+Show the full proposed contract before asking for that confirmation.
