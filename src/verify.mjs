@@ -6,7 +6,7 @@ import { canonicalBytes, digestOf, evaluationDigest } from "./canonical.mjs";
 import { LIMITS, LIMITS_VERSION } from "./limits.mjs";
 
 export { LIMITS, LIMITS_VERSION };
-export const VERIFIER_BUILD = "noticer-public-verifier@0.1.0";
+export const VERIFIER_BUILD = "noticer-public-verifier@0.1.1-dev.20261009";
 export const SOURCE_DIGEST_COVERS = ["canonical.mjs", "limits.mjs", "packet.mjs", "parse.mjs", "receipt.mjs", "verify.mjs"];
 const ARTIFACT_FILES = SOURCE_DIGEST_COVERS;
 
@@ -84,8 +84,21 @@ export function policyDigest(policyId) {
   return digestOf(canonicalBytes(POLICIES[policyId]));
 }
 
+const CALLER_EXPECTED_POLICIES = new Set(["artifact.text.exact.v1"]);
+
+export function assertExpectedTextOption(policyId, expectedText) {
+  if (expectedText === undefined) return;
+  if (typeof expectedText !== "string") {
+    throw new TypeError("expectedText must be a string");
+  }
+  if (!CALLER_EXPECTED_POLICIES.has(policyId)) {
+    throw new TypeError(`expectedText is only valid with artifact.text.exact.v1, not ${policyId}`);
+  }
+}
+
 export function verifyPacket(loaded, options = {}) {
   const policyId = options.policyId || "packet.integrity.v1";
+  assertExpectedTextOption(policyId, options.expectedText);
   try {
     if (options.injectFault === "before-checks") throw new Error("injected");
     const result = evaluate(loaded, policyId, options);

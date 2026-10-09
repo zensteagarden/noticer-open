@@ -1,18 +1,18 @@
 {
   "kind": "public-only launch candidate",
-  "package": "noticer-public-verifier@0.1.0",
+  "package": "noticer-public-verifier@0.1.1-dev.20261009",
   "intended_repository": "zensteagarden/noticer-open",
-  "publication": "not yet published from this environment; no GitHub write capability is available",
-  "acceptance_target": "Node 24.21.0 LTS; local Node 24 execution unavailable here",
+  "publication": "public source on GitHub; no npm publication from this tree",
+  "acceptance_target": "Node 24.21.0 LTS; CI is pinned to Node 24.21.0",
   "supporting_verification": {
-    "runtime": "Node v22.16.0; npm 10.9.2; Linux",
+    "runtime": "v22.14.0; npm 10.9.7; Linux",
     "public_tests": {
-      "pass": 29,
+      "pass": 36,
       "fail": 0,
       "skipped": 0
     },
     "packed_public_tests": {
-      "pass": 29,
+      "pass": 36,
       "fail": 0,
       "skipped": 0
     },
@@ -40,13 +40,13 @@
     },
     {
       "path": "AGENT_GUIDE.md",
-      "sha256": "885a4f2a7926dfb391bea9813fd9d16602d040f32e7b6e7d1f1e390f6b5a71f1",
-      "bytes": 1105
+      "sha256": "838c0490f190074ed38ca263b8f2da63f636a5c24b8339e7511d99141904bab2",
+      "bytes": 1133
     },
     {
       "path": "CONTRIBUTING.md",
-      "sha256": "7627641ff2b3b289a5c4effbae20bba4f4ad80c0b87997100b826deba09daaf0",
-      "bytes": 2031
+      "sha256": "af202865d9b6d07520c57065ed0f20205cfae1d1f25578ca0157b93861472fab",
+      "bytes": 2046
     },
     {
       "path": "LICENSE",
@@ -60,8 +60,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "5b877cd96b5f4c752375bee3611561f1c054f84060ce416730792fcab31b95e0",
-      "bytes": 4924
+      "sha256": "d4af0dbe023cd10c3655eba6f6a9b2c02b3b16a00b1e2044ed21b395ae9ec127",
+      "bytes": 8174
     },
     {
       "path": "SECURITY.md",
@@ -70,28 +70,33 @@
     },
     {
       "path": "docs/INTENTION_GUIDE.md",
-      "sha256": "3138d6ab4f2558e2a1cff3b8827349ec4d0b5490a4a7f3d7e9ba0b2d08fbfbf9",
-      "bytes": 2587
+      "sha256": "6c36f091f9a23322c7f1fe09c1db8344fb86181eb9ddf632bd315a196ffc14fd",
+      "bytes": 2627
     },
     {
       "path": "docs/PROTOCOL.md",
-      "sha256": "18a52df07b98fa9fe7ffc340a6b0698de55e2ee72c5c5dfd276d569fdb96a509",
-      "bytes": 4469
+      "sha256": "3b980556b8bef47937a8f5f9b03a72eeb52003a6d6da743269265cb35b19ffca",
+      "bytes": 4770
     },
     {
       "path": "docs/PUBLIC_SCOPE.md",
-      "sha256": "1e7d27c83d2d5f0fe0a0c5baf6843e5bdb561a2abdb3f7f58f2a2578b89216a7",
-      "bytes": 4084
+      "sha256": "3109b1870820c5c11b4622da8f902fa9d1654d0479d9a241fcf7441bf2b4c848",
+      "bytes": 4495
     },
     {
       "path": "docs/SUCCESS_CONTRACT.md",
-      "sha256": "c03a0e32211c3990d82f223d195c9413f306cfb381b972a7b3c6c53c6a9c0d97",
-      "bytes": 1086
+      "sha256": "bbf65acc9775483e35ad8d99824140276876afe39920612dae6777d338b3adc5",
+      "bytes": 1435
+    },
+    {
+      "path": "docs/WALKTHROUGH.md",
+      "sha256": "4beafa70f181a928d421415c93872771087feeb7e32f38e979e3a87566ab85d7",
+      "bytes": 3660
     },
     {
       "path": "examples/check-packet.mjs",
-      "sha256": "d202e0a145c839b39c999ad43b27d355a05ac0bfe4752603b6d48a7fb22a147c",
-      "bytes": 581
+      "sha256": "0b2e1babffe06d6f3c214d61888fe31dc1df527fd243ec93a1e770aba02927ac",
+      "bytes": 709
     },
     {
       "path": "examples/first-check.mjs",
@@ -100,8 +105,18 @@
     },
     {
       "path": "examples/guided-first-run.mjs",
-      "sha256": "aae7f577cdd118b500ec1e07b5a6bd72e457fff902187fa3512f63a2a30d7674",
-      "bytes": 5355
+      "sha256": "4d5fa8645a5270a03442f787ddd35d56f144e90ea536c0d0bbaa39a3738f3265",
+      "bytes": 6373
+    },
+    {
+      "path": "examples/packet-from-text.mjs",
+      "sha256": "8c6bd88199c8d6cd7a1008674e235b03d457093fa89992800313376360b26d0e",
+      "bytes": 1613
+    },
+    {
+      "path": "examples/walkthrough-contract.mjs",
+      "sha256": "b2936bfc963b96f0191dc9b1e8711a9875c9be42fa8461fe0e839f08f64c1abd",
+      "bytes": 812
     },
     {
       "path": "fixtures/automation-said-success/README.md",
@@ -135,8 +150,8 @@
     },
     {
       "path": "package.json",
-      "sha256": "32241210320a2059e4983a18d11eb54f374e71fa507547ac133b965944bc009f",
-      "bytes": 1474
+      "sha256": "f3da63ae321e5a03b630fdb53ca7641804a44710f0c71ecd03616b8c4d0e5a2c",
+      "bytes": 1514
     },
     {
       "path": "scripts/check-release.mjs",
@@ -150,8 +165,8 @@
     },
     {
       "path": "src/cli.mjs",
-      "sha256": "7b515438ed9203f9b39529f40e6f16907c8fe8ef794c34c85c3b689836148977",
-      "bytes": 3855
+      "sha256": "69723b958c3aeb44e8f4db15efe1e040868cfd45f48b34c93cf79bbdd486c094",
+      "bytes": 4407
     },
     {
       "path": "src/doctor.mjs",
@@ -160,13 +175,13 @@
     },
     {
       "path": "src/index.mjs",
-      "sha256": "14f315a128bdc336e1e6c427fdf129bef07c2c5f738032e8dc24815270509e92",
-      "bytes": 514
+      "sha256": "8a74d3cfdd593b2d6f09116b85277b1c34f862a3e141096fc16233d9de90db19",
+      "bytes": 630
     },
     {
       "path": "src/intention.mjs",
-      "sha256": "00aab93279765c825712226598f504bb64b5c6c72b0640f627ca1050a12279b8",
-      "bytes": 5112
+      "sha256": "cfb4719647c97d6da0366076bbd7ba410c1f59d1a417bd3c0dd3b077e1c20999",
+      "bytes": 5630
     },
     {
       "path": "src/limits.mjs",
@@ -190,8 +205,8 @@
     },
     {
       "path": "src/verify.mjs",
-      "sha256": "7a920c41666511ce5aa76d1fd478c74e408561773c17627ac2430552cc282101",
-      "bytes": 15344
+      "sha256": "f8ac6ed68cb7add452ce0609c8baa2389abe6561f1069a0a7c11c0fcca1d24bc",
+      "bytes": 17321
     },
     {
       "path": "test/boundaries.test.mjs",
@@ -200,13 +215,13 @@
     },
     {
       "path": "test/intention.test.mjs",
-      "sha256": "b06a5737f84deccf018e2c25bbeba83ceb52a76e331db1af8071e9338f295c1e",
-      "bytes": 2727
+      "sha256": "78ba7c08101b2e07cd32a1edec6cda30cb88af91a52482748aae86d549b392c0",
+      "bytes": 10479
     },
     {
       "path": "test/public-entry.test.mjs",
-      "sha256": "0829ec57326c005aa431bdb8c9f9cfd3c465bf9a402e5b31a871b0eaca1cba6d",
-      "bytes": 2436
+      "sha256": "afc8e7064629d54e91381537edd93d6a9aab2b91ffabc41cfa6ac7233b2c1221",
+      "bytes": 4607
     },
     {
       "path": "test/verifier.test.mjs",

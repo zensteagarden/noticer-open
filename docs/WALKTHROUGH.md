@@ -9,7 +9,7 @@ You will:
 3. verify it against a Success Contract;
 4. read the verdict in plain language.
 
-Use Node.js 24 if you have it. Node.js 22 also runs these commands.
+Node 24 is required (`package.json` engines is `>=24 <25`). Run every command from the repository root.
 
 ## 1. Write an artifact
 
@@ -88,29 +88,13 @@ Exit code is 1. The packet still hashes correctly. It does not match the callerâ
 
 ## Optional: JavaScript helper
 
-```js
-import { loadPacket, verifyAgainstContract } from "./src/index.mjs";
-import { createSuccessContract } from "./src/intention.mjs";
+The same check is in `examples/walkthrough-contract.mjs`. After the packet exists, run it from the repository root:
 
-const contract = createSuccessContract({
-  intention: "The recipient can access the report.",
-  requiredOutcome: "The disclosed evidence says report_accessible.",
-  observableCheck: {
-    policyId: "artifact.text.exact.v1",
-    statement: "Evidence bytes equal report_accessible.",
-    expectedText: "report_accessible",
-  },
-  doesNotEstablish: ["that a real recipient opened the report"],
-});
-
-const result = verifyAgainstContract(
-  loadPacket("/tmp/noticer-walkthrough/packet"),
-  contract,
-);
-console.log(result.verdict);
+```sh
+node examples/walkthrough-contract.mjs
 ```
 
-That prints `ALLOW`. Change `expectedText` to `other_text` and it prints `DENY`.
+That prints `ALLOW`. To see a mismatch, edit `expectedText` in that file to `other_text` and run the same command again. It then prints `DENY`.
 
 ## Optional: guided contract wording
 

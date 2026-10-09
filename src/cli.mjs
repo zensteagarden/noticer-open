@@ -16,6 +16,16 @@ function failInvocation(message) {
   process.exit(64);
 }
 
+function readExpectedText() {
+  const index = rest.indexOf("--expected-text");
+  if (index < 0) return undefined;
+  const value = rest[index + 1];
+  if (value === undefined || value.startsWith("-")) {
+    failInvocation("--expected-text requires a text value");
+  }
+  return value;
+}
+
 if (!command || command === "--help") {
   console.log(`noticer-check verify <packet> [--policy packet.integrity.v1|artifact.text.exact.v1] [--expected-text <text>] [--json]
 noticer-check receipt <receipt.json> --trust <trust.json> [--now <iso>] [--json]
@@ -33,8 +43,11 @@ try {
   if (command === "verify") {
     if (!target) failInvocation("packet path required");
     const policyId = flag("--policy") || "packet.integrity.v1";
+    const expectedText = readExpectedText();
+    if (expectedText !== undefined && policyId !== "artifact.text.exact.v1") {
+      failInvocation("--expected-text is only valid with --policy artifact.text.exact.v1");
+    }
     const loaded = loadPacket(target);
-    const expectedText = flag("--expected-text");
     const result = verifyPacket(loaded, {
       policyId,
       expectedText,

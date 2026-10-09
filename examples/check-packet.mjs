@@ -7,7 +7,9 @@ if (!directory) {
   console.error("Usage: node examples/check-packet.mjs <packet-directory> [policy-id] [expected-text]");
   process.exitCode = 64;
 } else {
-  const result = verifyPacket(loadPacket(directory), { policyId, expectedText });
+  const options = { policyId };
+  if (expectedText !== undefined) options.expectedText = expectedText;
+  const result = verifyPacket(loadPacket(directory), options);
   console.log(JSON.stringify(result, null, 2));
   process.exitCode = verifyExit(result.verdict);
 }

@@ -186,6 +186,42 @@ test("interactive helper shows the proposed contract before asking for confirmat
   assert.match(run.stdout, /"expected_text": "report_accessible"/);
 });
 
+test("expectedText is rejected for policies that do not check it", () => {
+  const fixture = resolve(here, "../fixtures/intention-guided-success");
+  const loaded = loadPacket(fixture);
+  assert.throws(
+    () => verifyPacket(loaded, { policyId: "packet.integrity.v1", expectedText: "report_accessible" }),
+    /expectedText is only valid with artifact\.text\.exact\.v1/,
+  );
+  const cli = spawnSync(process.execPath, [
+    "src/cli.mjs", "verify", "fixtures/intention-guided-success",
+    "--policy", "packet.integrity.v1",
+    "--expected-text", "report_accessible",
+  ], { cwd: resolve(here, ".."), encoding: "utf8" });
+  assert.equal(cli.status, 64, cli.stderr || cli.stdout);
+  assert.match(cli.stderr, /only valid with --policy artifact\.text\.exact\.v1/);
+});
+
+test("cli rejects --expected-text without a text value", () => {
+  const cwd = resolve(here, "..");
+  const missing = spawnSync(process.execPath, [
+    "src/cli.mjs", "verify", "fixtures/intention-guided-success",
+    "--policy", "artifact.text.exact.v1",
+    "--expected-text",
+  ], { cwd, encoding: "utf8" });
+  assert.equal(missing.status, 64, missing.stderr || missing.stdout);
+  assert.match(missing.stderr, /--expected-text requires a text value/);
+
+  const flagAsValue = spawnSync(process.execPath, [
+    "src/cli.mjs", "verify", "fixtures/intention-guided-success",
+    "--policy", "artifact.text.exact.v1",
+    "--expected-text", "--json",
+  ], { cwd, encoding: "utf8" });
+  assert.equal(flagAsValue.status, 64, flagAsValue.stderr || flagAsValue.stdout);
+  assert.match(flagAsValue.stderr, /--expected-text requires a text value/);
+  assert.equal(flagAsValue.stdout.trim(), "");
+});
+
 test("cli binds --expected-text into exact-text verification", () => {
   const cwd = resolve(here, "..");
   const matching = spawnSync(process.execPath, [
