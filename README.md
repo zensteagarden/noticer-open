@@ -2,17 +2,17 @@
 
 **Your automation says it succeeded. Noticer checks.**
 
-## Start here
+## Three parts of Noticer
 
-- **Check the expected result before the next action:** see the [commercial agent guide](mcp-commercial/AGENT_GUIDE.md) for when to call Noticer, its exact supported scope, outputs and consent steps. This POSIX-only client checks an explicitly authorized public HTTPS JSON predicate with a separate known-good control. It connects without an existing config file, then asks for consent before local setup and commerce enrollment. Five eligible checks are free; later eligible receipt access costs USD 1 with separate approval through the caller’s existing Link wallet.
-- **Existing operator-provisioned integrations:** [MCP 0.1.0](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-mcp-v0.1.0) remains the legacy owner-API connector. Its [installation guide](https://github.com/zensteagarden/noticer-open/releases/download/noticer-mcp-v0.1.0/README.md) requires assigned API access; it does not provide the new self-service commerce flow.
-- **Try the offline verifier:** follow the Node.js quick start below. It checks supplied evidence packets locally without an account, API key or network access.
+Keep these separate. They are not interchangeable.
 
-The [0.3.1 commercial release](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-commercial-mcp-v0.3.1-dev.20261008) includes clearer agent-facing instructions and tool descriptions. Follow the agent guide for installation.
+1. **Free standalone tools (this repository).** The offline Node verifier, Success Contract helper, fixtures, and examples. They check a packet you already have. No account, API key, or network access is required. Start with the [walkthrough](docs/WALKTHROUGH.md).
+2. **Commercial MCP connector (`mcp-commercial` 0.3.1).** A POSIX client that asks an agent to check an authorized public HTTPS JSON predicate against a known-good control. Install the [0.3.1 pre-release](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-commercial-mcp-v0.3.1-dev.20261008), not GitHub’s Latest button. GitHub currently marks the older [0.1.0 owner-API connector](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-mcp-v0.1.0) as Latest. That 0.1.0 connector needs assigned API access and does not provide the self-service commerce flow. Use the [commercial agent guide](mcp-commercial/AGENT_GUIDE.md) and the [MCP Registry 0.3.1 record](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/0.3.1-dev.20261008).
+3. **Private hosted engine (not in this repository).** A separate service that can observe an authorized public URL, issue signed receipts, and handle allowance or payment. This tree does not include that engine, its credentials, or customer evidence. The public site is [noticer.io](https://noticer.io). The installed 0.3.1 connector already pins the engine origin it uses.
 
 The commercial client has passed fresh Linux/UV installation, offline protocol checks, and mocked end-to-end payment tests. No real buyer payment is claimed. macOS runtime testing remains outstanding; native Windows is unsupported. Keep credentials out of chat and review the frozen scope before running a check. A verified receipt never executes a downstream action.
 
-[Current commercial MCP Registry listing](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/latest) · [Setup help](mailto:hello@noticer.io)
+[Setup help](mailto:hello@noticer.io)
 
 ## Offline public verifier
 
@@ -49,7 +49,7 @@ No account, API key, model, payment, database or network access is required. The
 node examples/guided-first-run.mjs
 ```
 
-It asks four short questions and reflects the Success Contract back before you confirm it. Confirmation clarifies the check; it **does not authorize any external action**.
+It asks four short questions, prints the full proposed Success Contract, then asks you to confirm. Confirmation clarifies the check; it **does not authorize any external action**.
 
 Read [the intention guide](docs/INTENTION_GUIDE.md), [Success Contract v1](docs/SUCCESS_CONTRACT.md), and [the agent guide](mcp-commercial/AGENT_GUIDE.md) if you want to connect Noticer to ChatGPT, Claude, Cursor or another agent. Keep the agent outside the deterministic verdict path.
 
@@ -63,6 +63,8 @@ node src/cli.mjs verify fixtures/automation-said-success --policy artifact.text.
 ```
 
 The integrity check exits 0. The exact-text check deliberately exits 1. That difference is the point: intact evidence is not automatically evidence for the claimed outcome.
+
+To bind a caller-declared exact string, add `--expected-text <text>`. A packet can be internally consistent and still be denied if those bytes do not match that string.
 
 Run the full local suite:
 
@@ -81,7 +83,7 @@ npm run check:release
 The JavaScript entry point is `src/index.mjs`. Intention helpers are available from `src/intention.mjs`.
 
 ```js
-import { loadPacket, verifyPacket } from "./src/index.mjs";
+import { loadPacket, verifyAgainstContract } from "./src/index.mjs";
 import { createSuccessContract } from "./src/intention.mjs";
 
 const contract = createSuccessContract({
@@ -95,11 +97,11 @@ const contract = createSuccessContract({
   doesNotEstablish: ["that a real recipient opened the report"],
 });
 
-const result = verifyPacket(loadPacket("./my-evidence-packet"), {
-  policyId: contract.observable_proxy.policy_id,
-});
+const result = verifyAgainstContract(loadPacket("./my-evidence-packet"), contract);
 console.log(result.verdict);
 ```
+
+`verifyAgainstContract` passes both the policy and the caller’s `expected_text` into verification. A packet that is intact but does not match that expected text is denied. You can also call `verifyPacket` with `{ policyId, expectedText }` or use `--expected-text` on the CLI.
 
 Good first projects are evidence-packet exporters, readable receipt viewers, adapters that produce disclosed packets, clearer explanations and hostile-input fixtures. Keep the success condition explicit and keep authorization separate.
 

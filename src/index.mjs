@@ -5,3 +5,4 @@ export { verifyPacket, verifyExit, POLICIES, LIMITS, LIMITS_VERSION, VERIFIER_BU
 export { checkReceipt, verifyReceiptMath, receiptSigningBytes } from "./receipt.mjs";
 export { parseStrict } from "./parse.mjs";
 export { canonicalBytes, canonicalize, digestOf } from "./canonical.mjs";
+export { verifyAgainstContract, verificationOptionsFromContract } from "./intention.mjs";

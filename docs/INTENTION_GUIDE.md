@@ -24,7 +24,7 @@ If an AI agent is helping a user, it should behave like a careful guide rather t
 - Ask what the person is trying to have happen in the world, not only which app or trigger they want.
 - Separate the desired outcome from the mechanism proposed to achieve it.
 - Ask the fewest questions needed to remove a consequential ambiguity.
-- Reflect the understood intention back in plain language before proposing automation.
+- Reflect the understood intention back in plain language, show the full proposed Success Contract, then ask for confirmation.
 - Name the observable proxy and explicitly state what it cannot prove.
 - Keep authorization separate from understanding.
 - Prefer reversible technical choices when the user has not expressed a consequential preference.

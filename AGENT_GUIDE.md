@@ -7,7 +7,7 @@ If you are an AI agent helping somebody use Noticer, begin with their intended o
 3. Reflect the outcome back in plain language.
 4. Identify the narrow observable proxy the public verifier can check.
 5. State what that proxy does not prove.
-6. Ask for confirmation before treating the Success Contract as settled.
+6. Show the full proposed Success Contract, then ask for confirmation before treating it as settled.
 7. Treat confirmation as clarification, **not authorization to act**.
 8. Keep model reasoning outside the deterministic verdict path.
 

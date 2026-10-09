@@ -3,8 +3,8 @@ import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import { createSuccessContract, confirmSuccessContract, renderSuccessContract } from "../src/intention.mjs";
-import { loadPacket, verifyPacket } from "../src/index.mjs";
+import { createSuccessContract, confirmSuccessContract, renderSuccessContract, verifyAgainstContract } from "../src/intention.mjs";
+import { loadPacket } from "../src/index.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -26,9 +26,9 @@ function demoContract() {
   }));
 }
 
-function verifyFixture(relativePath) {
+function verifyFixture(relativePath, contract) {
   const packet = loadPacket(resolve(here, relativePath));
-  return verifyPacket(packet, { policyId: "artifact.text.exact.v1" });
+  return verifyAgainstContract(packet, contract);
 }
 
 function printVerdict(label, result) {
@@ -48,11 +48,11 @@ async function runDemo() {
   console.log(renderSuccessContract(contract));
 
   console.log("\n2. Show why a system saying success is not enough.\n");
-  const falseGreen = verifyFixture("../fixtures/automation-said-success");
+  const falseGreen = verifyFixture("../fixtures/automation-said-success", contract);
   printVerdict("Automation-said-success packet", falseGreen);
 
   console.log("\n3. Check a disclosed observation that matches the confirmed proxy.\n");
-  const matching = verifyFixture("../fixtures/intention-guided-success");
+  const matching = verifyFixture("../fixtures/intention-guided-success", contract);
   printVerdict("Matching disclosed packet", matching);
 
   console.log("\n4. Explain the boundary.\n");
@@ -66,50 +66,22 @@ async function runDemo() {
   console.log("\nDEMO_RESULT: PASS");
 }
 
-async function collectInteractiveAnswers() {
-  const prompts = [
-    "What are you actually trying to have happen?",
-    "What concrete outcome would make you say, 'yes, that worked'?",
-    "For this starter, what exact text should the disclosed evidence contain when that proxy is satisfied?",
-    "What important thing would that exact-text check still NOT prove?",
-    "Does this capture what success means for this check? [y/N]",
-  ];
+const CONTENT_PROMPTS = [
+  "What are you actually trying to have happen?",
+  "What concrete outcome would make you say, 'yes, that worked'?",
+  "For this starter, what exact text should the disclosed evidence contain when that proxy is satisfied?",
+  "What important thing would that exact-text check still NOT prove?",
+];
+const CONFIRM_PROMPT = "Does this capture what success means for this check? [y/N]";
 
-  if (!input.isTTY) {
-    let raw = "";
-    for await (const chunk of input) raw += chunk;
-    const lines = raw.split(/\r?\n/).filter((line) => line.length > 0);
-    if (lines.length < prompts.length) {
-      throw new Error(`guided input expected ${prompts.length} lines, received ${lines.length}`);
-    }
-    return {
-      intention: lines[0],
-      requiredOutcome: lines[1],
-      expectedText: lines[2],
-      limitation: lines[3],
-      answer: lines[4],
-    };
-  }
-
-  const rl = createInterface({ input, output });
-  try {
-    return {
-      intention: await rl.question(`${prompts[0]}\n> `),
-      requiredOutcome: await rl.question(`${prompts[1]}\n> `),
-      expectedText: await rl.question(`${prompts[2]}\n> `),
-      limitation: await rl.question(`${prompts[3]}\n> `),
-      answer: await rl.question(`${prompts[4]}\n> `),
-    };
-  } finally {
-    rl.close();
-  }
+async function readPipedLines() {
+  let raw = "";
+  for await (const chunk of input) raw += chunk;
+  return raw.split(/\r?\n/).filter((line) => line.length > 0);
 }
 
-async function runInteractive() {
-  console.log("NOTICER — intention before automation\n");
-  const { intention, requiredOutcome, expectedText, limitation, answer } = await collectInteractiveAnswers();
-
-  const draft = createSuccessContract({
+function draftFromAnswers({ intention, requiredOutcome, expectedText, limitation }) {
+  return createSuccessContract({
     intention,
     requiredOutcome,
     observableCheck: {
@@ -119,18 +91,68 @@ async function runInteractive() {
     },
     doesNotEstablish: [limitation, "that any external action is authorized"],
   });
+}
 
-  console.log("Here is the Success Contract draft:\n");
-  console.log(renderSuccessContract(draft));
-  if (answer.trim().toLowerCase() !== "y" && answer.trim().toLowerCase() !== "yes") {
-    console.log("\nNothing was confirmed. Change the wording and try again.");
+function isYes(answer) {
+  const value = answer.trim().toLowerCase();
+  return value === "y" || value === "yes";
+}
+
+async function runInteractive() {
+  console.log("NOTICER — intention before automation\n");
+
+  let intention;
+  let requiredOutcome;
+  let expectedText;
+  let limitation;
+  let answer;
+
+  if (!input.isTTY) {
+    const lines = await readPipedLines();
+    if (lines.length < CONTENT_PROMPTS.length + 1) {
+      throw new Error(`guided input expected ${CONTENT_PROMPTS.length + 1} lines, received ${lines.length}`);
+    }
+    intention = lines[0];
+    requiredOutcome = lines[1];
+    expectedText = lines[2];
+    limitation = lines[3];
+    const draft = draftFromAnswers({ intention, requiredOutcome, expectedText, limitation });
+    console.log("Here is the proposed Success Contract:\n");
+    console.log(renderSuccessContract(draft));
+    console.log(`\n${CONFIRM_PROMPT}`);
+    answer = lines[4];
+    if (!isYes(answer)) {
+      console.log("\nNothing was confirmed. Change the wording and try again.");
+      return;
+    }
+    const confirmed = confirmSuccessContract(draft);
+    console.log("\nConfirmed Success Contract:\n");
+    console.log(JSON.stringify(confirmed, null, 2));
+    console.log("\nNext: build or collect a disclosed evidence packet that matches this proxy, then run the public verifier. Confirmation did not authorize any external action.");
     return;
   }
 
-  const confirmed = confirmSuccessContract(draft);
-  console.log("\nConfirmed Success Contract:\n");
-  console.log(JSON.stringify(confirmed, null, 2));
-  console.log("\nNext: build or collect a disclosed evidence packet that matches this proxy, then run the public verifier. Confirmation did not authorize any external action.");
+  const rl = createInterface({ input, output });
+  try {
+    intention = await rl.question(`${CONTENT_PROMPTS[0]}\n> `);
+    requiredOutcome = await rl.question(`${CONTENT_PROMPTS[1]}\n> `);
+    expectedText = await rl.question(`${CONTENT_PROMPTS[2]}\n> `);
+    limitation = await rl.question(`${CONTENT_PROMPTS[3]}\n> `);
+    const draft = draftFromAnswers({ intention, requiredOutcome, expectedText, limitation });
+    console.log("\nHere is the proposed Success Contract:\n");
+    console.log(renderSuccessContract(draft));
+    answer = await rl.question(`\n${CONFIRM_PROMPT}\n> `);
+    if (!isYes(answer)) {
+      console.log("\nNothing was confirmed. Change the wording and try again.");
+      return;
+    }
+    const confirmed = confirmSuccessContract(draft);
+    console.log("\nConfirmed Success Contract:\n");
+    console.log(JSON.stringify(confirmed, null, 2));
+    console.log("\nNext: build or collect a disclosed evidence packet that matches this proxy, then run the public verifier. Confirmation did not authorize any external action.");
+  } finally {
+    rl.close();
+  }
 }
 
 if (process.argv.includes("--demo")) {

@@ -17,7 +17,7 @@ function failInvocation(message) {
 }
 
 if (!command || command === "--help") {
-  console.log(`noticer-check verify <packet> [--policy packet.integrity.v1|artifact.text.exact.v1] [--json]
+  console.log(`noticer-check verify <packet> [--policy packet.integrity.v1|artifact.text.exact.v1] [--expected-text <text>] [--json]
 noticer-check receipt <receipt.json> --trust <trust.json> [--now <iso>] [--json]
 noticer-check explain <result.json>
 
@@ -34,8 +34,10 @@ try {
     if (!target) failInvocation("packet path required");
     const policyId = flag("--policy") || "packet.integrity.v1";
     const loaded = loadPacket(target);
+    const expectedText = flag("--expected-text");
     const result = verifyPacket(loaded, {
       policyId,
+      expectedText,
       evaluationTime: flag("--evaluation-time"),
       manifestDigest: loaded.manifestDigest ?? null,
     });

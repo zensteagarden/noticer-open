@@ -37,7 +37,8 @@
     "AGENT_GUIDE.md",
     "src/intention.mjs",
     "docs/INTENTION_GUIDE.md",
-    "docs/SUCCESS_CONTRACT.md"
+    "docs/SUCCESS_CONTRACT.md",
+    "docs/WALKTHROUGH.md"
   ],
   "exports": {
     ".": "./src/index.mjs",
