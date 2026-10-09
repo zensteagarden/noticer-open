@@ -2,6 +2,89 @@
 
 Use Noticer when a workflow reports success and the next step depends on a specific, publicly observable JSON condition. It checks that condition with a separate known-good control and verifies the resulting evidence package. A receipt is the evidence record; the useful output is whether the checked condition supports proceeding, blocking, or holding for clarification.
 
+## When to use Noticer
+
+Consider Noticer when your next step depends on one public JSON field showing one exact value, and you can name a second record on the same site that you already know shows its expected value (the control). Noticer reads both during a short window and returns PROVED, DISPROVED or INCONCLUSIVE in a signed receipt. It checks what the source reports, not the real-world event behind it.
+
+### What every check needs
+- Both URLs are public HTTPS JSON that anyone can read without a login, key, cookie or header. They are on the same site and are different records.
+- `claim_ref` is a whole path segment of the questioned URL, and the questioned record has a string field (`claim_id_path`) equal to it. The control URL must not contain `claim_ref`.
+- No query string or fragment. The response must be HTTP 200, JSON, and at most 256 KiB.
+- `deadline_seconds` is a whole number from 20 to 120.
+- `authorized_public_read` is `true`. Set it only after your owner has authorized these two public reads.
+- The rule is `$.path.to.field == <JSON value>`, with one space each side of `==`. Dotted names only: no arrays, wildcards or filters.
+- The value must match in type as well as value. `"1200"` (text) is not `1200` (number), `1200` is not `1200.0`, and `true` is not `1`. A type mismatch counts as "not equal" and can return DISPROVED. Read the live record once and copy the type it uses.
+
+### 1. A public record shows the expected build identifier
+**When:** you shipped a build and your next step, like announcing it, moving traffic or closing a ticket, depends on the public deploy record showing that build.
+**Synthetic example** (`noticer_prepare_receipt` arguments):
+```json
+{"check_label": "build-production-3f9c2ab",
+ "scope": {
+  "claim_ref": "production",
+  "questioned": {"url": "https://deploy.example.com/api/environments/production",
+                 "extract": "$.build.sha == \"3f9c2ab\"", "claim_id_path": "$.environment"},
+  "control": {"url": "https://deploy.example.com/api/environments/staging",
+              "extract": "$.build.sha == \"3f9c2ab\""},
+  "deadline_seconds": 60,
+  "authorized_public_read": true}}
+```
+The control is staging, which you already know shows that build.
+**What it shows:** at one moment, that endpoint reported that build identifier. It does not show that every server or region runs the build, that the build works, or that the deployment succeeded.
+
+### 2. A public record shows the expected reported status
+**When:** your next step depends on a public status record saying a component is in a given state, for example `"operational"` before you resume a job.
+**Synthetic example:**
+```json
+{"check_label": "status-search-api",
+ "scope": {
+  "claim_ref": "search-api",
+  "questioned": {"url": "https://status.example.com/api/components/search-api",
+                 "extract": "$.status == \"operational\"", "claim_id_path": "$.id"},
+  "control": {"url": "https://status.example.com/api/components/login-page",
+              "extract": "$.status == \"operational\""},
+  "deadline_seconds": 60,
+  "authorized_public_read": true}}
+```
+The control is another component you already know is reported as operational.
+**What it shows:** the status page reported that status at one moment. It does not show that the service actually works for users, or that it stays up.
+
+### 3. A field now shows an expected value
+**When:** you made or expect a change, such as a data load, a published setting or a count, and your next step depends on a public field now showing the new value.
+**Synthetic example** (the expected value is a JSON number):
+```json
+{"check_label": "count-city-permits",
+ "scope": {
+  "claim_ref": "city-permits",
+  "questioned": {"url": "https://data.example.com/api/datasets/city-permits",
+                 "extract": "$.latest.record_count == 1200", "claim_id_path": "$.slug"},
+  "control": {"url": "https://data.example.com/api/datasets/road-closures",
+              "extract": "$.latest.record_count == 87"},
+  "deadline_seconds": 90,
+  "authorized_public_read": true}}
+```
+The control is a dataset whose count you already confirmed. Its expected value can differ from the questioned one.
+**What it shows:** the field showed that value during the check window. Noticer does not see the old value. If the field already showed `1200` before your change, the result is still PROVED. It also does not show that the data itself is correct or complete.
+
+### After the check
+Read `noticer_receipt_status` (at most once every 3 seconds). Its verdict is unverified. Before relying on any result, call `noticer_get_verified_receipt`. You and your owner's rules decide the next step. Noticer never takes it.
+- **PROVED** (verified): the field matched while the control also matched. You may continue if your owner's policy allows it, for that one condition only.
+- **DISPROVED** (verified): by the deadline the field still did not match while the control did. Do not continue. Report the observed mismatch. A later re-check is a new check.
+- **INCONCLUSIVE**, a rejected receipt, or no receipt: this is never success. Hold and report it. Typical causes are a failing control, a missing field, a non-JSON or non-200 response, or the window running out. INCONCLUSIVE is free. Fix the cause before asking your owner whether to check again.
+- Payment never changes a verdict. The verdict is fixed when the check finishes, before any payment. Paying only unlocks that same evidence. Only PROVED and DISPROVED are ever payable, and each payment needs your owner's separate approval.
+- The prepare step can show $1 due even while free checks remain. That figure alone is not a charge. Nothing is paid unless your owner separately approves a payment.
+
+### Don't use it for
+- Private or login-only data, or anything needing a key, cookie or header.
+- Auditing a whole site, crawling, or reading web pages. It reads two JSON records.
+- Opinions or judgements ("is this good?").
+- Ranges, "greater than" or "contains". It checks exact equality only.
+- Ongoing monitoring or alerts. Each check is one short observation window.
+
+Follow your owner's spending and approval rules. Nothing here asks you to skip them.
+
+*Internal test (team, not a customer; free check, no payment):* on 2026-10-08 the team ran one check with `claim_ref` `octocat`, questioned `https://api.github.com/users/octocat` (`$.type == "User"`, `claim_id_path` `$.login`), control `https://api.github.com/users/ghost` (`$.type == "User"`). It returned a verified PROVED. This shows the request shape works end to end. It says nothing about the paid path.
+
 ## Use it for
 
 - Checking whether a particular public JSON record has the expected scalar value before continuing a workflow.
@@ -112,6 +195,23 @@ The outputs include verified metadata and hashes; raw evidence and capabilities 
 New self-service buyers receive five eligible free checks. Assignment happens at eligible package finalization, not at preparation. Existing buyers retain their recorded cohort allowance. Inconclusive packages are free and do not consume the allowance. Read account and order entitlement rather than assuming eligibility.
 
 After the free allowance, an eligible completed receipt costs USD 1. There is no subscription. A separate exact-price approval and an already installed, authorized caller-owned Link wallet are required for the optional payment flow. `noticer_payment_challenge` obtains a challenge; it does not charge. `noticer_pay_with_existing_link` may submit a real one-time payment after the required approval. Approval alone is not settlement, and settlement is not evidence verification. Denied, expired and uncertain requests never justify a replacement authorization or automatic repeat payment.
+
+### Seller identifiers and wallet requirement
+
+With the public 0.3.1 client, paying needs an existing Link account with a saved card (the Link CLI currently supports US and Canadian Link accounts only), the Link CLI installed and signed in on the same computer, and your owner's approval of each USD 1 request in Link within 30 minutes. Install the Link CLI and sign in to it before you first run local setup, then turn on Link discovery in that first setup: if setup already ran without finding it, running it again keeps the old settings. The server accepts a Stripe shared payment token issued for that exact USD 1 payment; ways to get one other than the Link CLI are untested. A paid check by an outside buyer has not been completed yet.
+
+`noticer_payment_challenge` asks for two public seller identifiers. Read them from `mpp.payee_account_id` and `mpp.payment_network_id` in the offer file `https://noticer-mpp-ee54698-production.up.railway.app/.well-known/noticer.json`. For reference they are:
+
+- `merchant_account`: `acct_1UBxukQ51uLWNyhY`
+- `network_id`: `profile_61VLLudWLMJbpwavMA6VLLuc76SQhePaX1TQUw1p2P72`
+
+These are not secrets. The challenge binds both into the order terms, so a different value fails with `payment_challenge_binding_rejected`. Before approving, confirm that your wallet's approval request is for exactly USD 1. If anything differs, stop. Do not pay. Contact hello@noticer.io with the order ID only.
+
+### Timing and keeping your receipt
+
+- Pay within 40 minutes of the observation (`freshness.sale_valid_seconds` in the offer file). After that, unpaid PROVED or DISPROVED evidence must be observed again, and a new observation counts as a new check.
+- The offer file shows `live_activation_reason: mpp_live_provider_preflight_required` even when `live_activation_enabled` is `true`. It is a fixed label, not a sign that payments are off. Each payment is checked with the payment provider when it is made. No outside paid purchase has completed yet.
+- Download and keep your evidence package. The verified-receipt tool and the offline verifier reject evidence older than 45 minutes by default, because that limit is for deciding the next action. To confirm later that a saved package is genuine, run the offline verifier with `--verify-only --max-age-seconds <age of the package in seconds>`.
 
 ## Discovery limits
 
