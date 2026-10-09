@@ -212,6 +212,7 @@ These are not secrets. The challenge binds both into the order terms, so a diffe
 - Pay within 40 minutes of the observation (`freshness.sale_valid_seconds` in the offer file). After that, unpaid PROVED or DISPROVED evidence must be observed again, and a new observation counts as a new check.
 - The offer file shows `live_activation_reason: mpp_live_provider_preflight_required` even when `live_activation_enabled` is `true`. It is a fixed label, not a sign that payments are off. Each payment is checked with the payment provider when it is made. No outside paid purchase has completed yet.
 - Download and keep your evidence package. The verified-receipt tool and the offline verifier reject evidence older than 45 minutes by default, because that limit is for deciding the next action. To confirm later that a saved package is genuine, run the offline verifier with `--verify-only --max-age-seconds <age of the package in seconds>`.
+MCP buyers verify receipts with noticer_get_verified_receipt; the standalone verifier.py is for packages downloaded from the /start web flow.
 
 ## Discovery limits
 
