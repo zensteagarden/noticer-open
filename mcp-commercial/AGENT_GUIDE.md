@@ -205,7 +205,7 @@ With the public 0.3.1 client, paying needs an existing Link account with a saved
 - `merchant_account`: `acct_1UBxukQ51uLWNyhY`
 - `network_id`: `profile_61VLLudWLMJbpwavMA6VLLuc76SQhePaX1TQUw1p2P72`
 
-These are not secrets. The challenge binds both into the order terms, so a different value fails with `payment_challenge_binding_rejected`. Before approving, confirm that your wallet's approval screen shows the merchant name `<MERCHANT_DISPLAY_NAME>`. If anything differs, stop. Do not pay. Contact hello@noticer.io with the order ID only.
+These are not secrets. The challenge binds both into the order terms, so a different value fails with `payment_challenge_binding_rejected`. Before approving, confirm that your wallet's approval request is for exactly USD 1. If anything differs, stop. Do not pay. Contact hello@noticer.io with the order ID only.
 
 ### Timing and keeping your receipt
 
