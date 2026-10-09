@@ -222,6 +222,21 @@ test("cli rejects --expected-text without a text value", () => {
   assert.equal(flagAsValue.stdout.trim(), "");
 });
 
+test("cli accepts --expected-text=-1 as caller text", () => {
+  const cwd = resolve(here, "..");
+  const run = spawnSync(process.execPath, [
+    "src/cli.mjs", "verify", "fixtures/intention-guided-success",
+    "--policy", "artifact.text.exact.v1",
+    "--expected-text=-1",
+    "--json",
+  ], { cwd, encoding: "utf8" });
+  assert.equal(run.status, 1, run.stderr || run.stdout);
+  const result = JSON.parse(run.stdout);
+  assert.equal(result.verdict, "DENY");
+  assert.equal(result.input_commitment.caller_expected_text, "-1");
+  assert.ok(result.reasons.includes("CONTRACT_MISMATCH"));
+});
+
 test("cli binds --expected-text into exact-text verification", () => {
   const cwd = resolve(here, "..");
   const matching = spawnSync(process.execPath, [

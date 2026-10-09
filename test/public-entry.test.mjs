@@ -37,6 +37,17 @@ test("public entry point exports contract-bound verification", () => {
   assert.equal(result.verdict, "ALLOW");
 });
 
+test("check-packet example treats expectedText on a non-text policy as usage error", () => {
+  const run = spawnSync(process.execPath, [
+    "examples/check-packet.mjs",
+    "fixtures/intention-guided-success",
+    "packet.integrity.v1",
+    "report_accessible",
+  ], { cwd: root, encoding: "utf8", shell: false });
+  assert.equal(run.status, 64, run.stderr || run.stdout);
+  assert.match(run.stderr, /expectedText is only valid with artifact\.text\.exact\.v1/);
+});
+
 test("the standalone starter example explains both results without claiming an external outcome", () => {
   const run = spawnSync(process.execPath, ["examples/first-check.mjs"], { cwd: root, encoding: "utf8", shell: false });
   assert.equal(run.status, 0, run.stderr);

@@ -16,18 +16,37 @@ function failInvocation(message) {
   process.exit(64);
 }
 
+const KNOWN_FLAGS = new Set([
+  "--json",
+  "--policy",
+  "--evaluation-time",
+  "--expected-text",
+  "--trust",
+  "--now",
+  "--help",
+]);
+
 function readExpectedText() {
-  const index = rest.indexOf("--expected-text");
-  if (index < 0) return undefined;
-  const value = rest[index + 1];
-  if (value === undefined || value.startsWith("-")) {
-    failInvocation("--expected-text requires a text value");
+  for (let index = 0; index < rest.length; index += 1) {
+    const arg = rest[index];
+    if (arg.startsWith("--expected-text=")) {
+      const value = arg.slice("--expected-text=".length);
+      if (value === "") failInvocation("--expected-text requires a text value");
+      return value;
+    }
+    if (arg === "--expected-text") {
+      const value = rest[index + 1];
+      if (value === undefined || KNOWN_FLAGS.has(value) || value.startsWith("--")) {
+        failInvocation("--expected-text requires a text value");
+      }
+      return value;
+    }
   }
-  return value;
+  return undefined;
 }
 
 if (!command || command === "--help") {
-  console.log(`noticer-check verify <packet> [--policy packet.integrity.v1|artifact.text.exact.v1] [--expected-text <text>] [--json]
+  console.log(`noticer-check verify <packet> [--policy packet.integrity.v1|artifact.text.exact.v1] [--expected-text <text>|--expected-text=<text>] [--json]
 noticer-check receipt <receipt.json> --trust <trust.json> [--now <iso>] [--json]
 noticer-check explain <result.json>
 

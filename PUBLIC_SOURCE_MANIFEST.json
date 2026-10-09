@@ -7,12 +7,12 @@
   "supporting_verification": {
     "runtime": "v22.14.0; npm 10.9.7; Linux",
     "public_tests": {
-      "pass": 36,
+      "pass": 38,
       "fail": 0,
       "skipped": 0
     },
     "packed_public_tests": {
-      "pass": 36,
+      "pass": 38,
       "fail": 0,
       "skipped": 0
     },
@@ -60,8 +60,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "d4af0dbe023cd10c3655eba6f6a9b2c02b3b16a00b1e2044ed21b395ae9ec127",
-      "bytes": 8174
+      "sha256": "3770082c66ea2f2438afde6728e078d94a3d20ac46f78fd0a4d514f666fa3a2c",
+      "bytes": 8235
     },
     {
       "path": "SECURITY.md",
@@ -95,8 +95,8 @@
     },
     {
       "path": "examples/check-packet.mjs",
-      "sha256": "0b2e1babffe06d6f3c214d61888fe31dc1df527fd243ec93a1e770aba02927ac",
-      "bytes": 709
+      "sha256": "8f6fa9e849cb20b74cff51fae8aab09df399544804c1f01d0d91f25125291c63",
+      "bytes": 997
     },
     {
       "path": "examples/first-check.mjs",
@@ -165,8 +165,8 @@
     },
     {
       "path": "src/cli.mjs",
-      "sha256": "69723b958c3aeb44e8f4db15efe1e040868cfd45f48b34c93cf79bbdd486c094",
-      "bytes": 4407
+      "sha256": "7d92c3543afdc3aa6fcceacbfe071893870c592369c07fa8e516459ae95b3c8c",
+      "bytes": 4898
     },
     {
       "path": "src/doctor.mjs",
@@ -215,13 +215,13 @@
     },
     {
       "path": "test/intention.test.mjs",
-      "sha256": "78ba7c08101b2e07cd32a1edec6cda30cb88af91a52482748aae86d549b392c0",
-      "bytes": 10479
+      "sha256": "f48a94de9089662f62094602ae3457843a316282be289fcffa1afc418e7ea0fa",
+      "bytes": 11071
     },
     {
       "path": "test/public-entry.test.mjs",
-      "sha256": "afc8e7064629d54e91381537edd93d6a9aab2b91ffabc41cfa6ac7233b2c1221",
-      "bytes": 4607
+      "sha256": "096cd1fec0d63b38460c983a0be4b354ab35a0bb95ab2bb92e8199dd1b504a8e",
+      "bytes": 5075
     },
     {
       "path": "test/verifier.test.mjs",
