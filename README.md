@@ -129,7 +129,7 @@ Good first projects are evidence-packet exporters, readable receipt viewers, ada
 
 `artifact.text.exact.v1` additionally requires a declared exact-text claim to match supplied evidence bytes.
 
-Both use `ALLOW`, `DENY` and `INCONCLUSIVE`. Public `PROVED` and `DISPROVED` remain disabled. This repository does not contact a live destination and does not prove that an automation performed an external write.
+Both use `ALLOW`, `DENY` and `INCONCLUSIVE`. The offline verifier in this repository never issues `PROVED` or `DISPROVED`; those verdicts come only from the hosted Noticer check used through the MCP connector (see [When to use Noticer](#when-to-use-noticer-for-ai-agents) above). This offline verifier does not contact a live destination and does not prove that an automation performed an external write.
 
 Receipts are a separate authenticity check. A valid signature is not the same as issuer trust, a passing evaluation or authorization to act.
 
