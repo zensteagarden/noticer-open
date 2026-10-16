@@ -2,3 +2,5 @@ node_modules/
 *.tgz
 success-contract.json
 .DS_Store
+__pycache__/
+*.pyc
