@@ -8,7 +8,7 @@ Use Noticer right after a handoff, when your tool reported success and your next
 
 Not for private or login-only data, HTML, ranges or "contains", whole-site audits or ongoing monitoring. If a direct fetch already answers your question and nobody needs independent evidence, you don't need Noticer.
 
-After 5 free checks, each completed check is $1, approved by you through an existing Link wallet. Card checkout isn't available yet. INCONCLUSIVE is free.
+After 5 free checks, each completed check is $1, paid by card through Stripe Checkout or with an existing Link wallet. INCONCLUSIVE is free.
 
 **Install (MCP, local stdio, Linux with uv):**
 
@@ -24,7 +24,7 @@ Then call `noticer_commercial_setup` and follow the [agent guide](mcp-commercial
 
 ## Start here
 
-- **Check the expected result before the next action:** see the [commercial agent guide](mcp-commercial/AGENT_GUIDE.md) for when to call Noticer, its exact supported scope, outputs and consent steps. This POSIX-only client checks an explicitly authorized public HTTPS JSON predicate with a separate known-good control. It connects without an existing config file, then asks for consent before local setup and commerce enrollment. Five eligible checks are free; later eligible receipt access costs USD 1 with separate approval through the caller’s existing Link wallet.
+- **Check the expected result before the next action:** see the [commercial agent guide](mcp-commercial/AGENT_GUIDE.md) for when to call Noticer, its exact supported scope, outputs and consent steps. This POSIX-only client checks an explicitly authorized public HTTPS JSON predicate with a separate known-good control. It connects without an existing config file, then asks for consent before local setup and commerce enrollment. Five eligible checks are free; later eligible receipt access costs USD 1, paid by card through Stripe Checkout or with the caller’s existing Link wallet, with separate approval.
 - **Existing operator-provisioned integrations:** [MCP 0.1.0](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-mcp-v0.1.0) remains the legacy owner-API connector. Its [installation guide](https://github.com/zensteagarden/noticer-open/releases/download/noticer-mcp-v0.1.0/README.md) requires assigned API access; it does not provide the new self-service commerce flow.
 - **Try the offline verifier:** follow the Node.js quick start below. It checks supplied evidence packets locally without an account, API key or network access.
 
