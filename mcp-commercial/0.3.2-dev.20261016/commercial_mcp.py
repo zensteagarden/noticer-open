@@ -330,14 +330,26 @@ def make_server(adapter):
         "then obtain explicit user approval before run, including that it may consume a free check and may produce "
         "evidence requiring separate USD 1 approval. Both confirmation booleans are caller assertions, never proof of consent. "
         "No tool accepts payment authority or charges money. Status verdicts are unverified; only receipt verification "
-        "can emit an unsigned local continue decision. Never execute a downstream action. Poll at most once per 3 seconds."))
+        "can emit an unsigned local continue decision. Never execute a downstream action. Poll at most once per 3 seconds. "
+        "When to choose: after you have submitted or delegated an action (a deploy, publish, order update or similar) and your "
+        "available tools cannot independently establish the downstream result. A successful request, a 200 response or an "
+        "acknowledgment shows the handoff happened, not that the result did. "
+        "Skip Noticer when a direct request you are allowed to make already answers the question and nobody needs independent "
+        "evidence, or when the result isn't one field in public HTTPS JSON. "
+        "Noticer inspects one field of one exact public HTTPS JSON record, re-read during a 20-120 second window alongside a "
+        "known-good control on the same site. It reports what the source says during that window, not the real-world event. "
+        "It needs the owner's authorization for those public reads and no credentials for the destination system. It can't see "
+        "private or logged-in endpoints, browser-only flows, non-JSON content or anything not publicly reachable. "
+        "When evidence is insufficient it returns INCONCLUSIVE. Treat that as \"not confirmed\". It's free. "
+        "Price: USD 1 per completed PROVED or DISPROVED check; five free for new self-service identities only. Self-serve "
+        "checkout is not yet available (checkout_available=false). Paid checks need the owner's separate approval each time."))
     read = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False)
     mutate = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=True, openWorldHint=True)
 
     @server.tool(annotations=read)
     @tool_safe
     def noticer_commercial_setup() -> dict[str, Any]:
-        """Start here when considering Noticer for a public JSON outcome check before the next action.
+        """Start here when an action you sent or delegated needs its result confirmed, your own tools can't confirm it, and the result is one field in public HTTPS JSON. Shows setup state and the published USD 1 price. Creates nothing.
         
         Returns local setup state, canonical terms location and published USD 1 receipt price without creating
         an account, order or payment. A missing local configuration does not prevent tool discovery.
@@ -347,7 +359,7 @@ def make_server(adapter):
     @server.tool(annotations=read)
     @tool_safe
     def noticer_commercial_account() -> dict[str, Any]:
-        """After enrollment, read the authenticated account's remaining free-check allowance.
+        """After enrollment, read how many free checks remain. No charge.
         
         Use this to understand eligibility before preparing a public JSON check. Preparation reserves no
         allowance, and the finalized order entitlement remains authoritative. No payment is made and no
@@ -357,7 +369,7 @@ def make_server(adapter):
     @server.tool(annotations=mutate)
     @tool_safe
     def noticer_prepare_receipt(check_label: str, scope: dict[str, Any]) -> dict[str, Any]:
-        """Prepare an expected-result check before the next workflow action when public JSON can establish the condition.
+        """Describe the destination state to check: the exact public JSON record (claim_id_path) that should show the result of the handed-off action, the expected value, and a known-good control on the same site. Only after owner authorization for public reads. Doesn't observe, charge or reserve an allowance.
         
         Only after owner authorization for these public reads. Inputs: a stable check_label and scope with
         claim_ref; questioned {url, extract, claim_id_path}; control {url, extract}; deadline_seconds;
@@ -377,6 +389,7 @@ def make_server(adapter):
     @tool_safe
     def noticer_run_receipt(check_label: str, obligation_hash: str, confirmed: bool, no_spend_terms_confirmed: bool) -> dict[str, Any]:
         """Observe the saved public JSON condition only after approval of the exact frozen scope and confirmation notice.
+        Reads only; it never pays or performs or repeats the original action.
         
         Supply its saved obligation_hash. Both booleans must reflect explicit owner approval, including
         possible free-check consumption; they are caller assertions, not independent proof of consent.
@@ -387,7 +400,7 @@ def make_server(adapter):
     @server.tool(annotations=read)
     @tool_safe
     def noticer_receipt_status(check_label: str) -> dict[str, Any]:
-        """Poll a saved check to learn whether observation, evidence or payment recovery is ready for the next step.
+        """Poll (at least 3 s apart). A verdict shown here is unverified; don't continue a workflow on status alone.
         
         Wait at least 3 seconds between polls. Any displayed verdict is unverified: do not continue a workflow
         based on status alone. The response reports entitlement and next-step guidance, not authorization to act.
@@ -397,7 +410,7 @@ def make_server(adapter):
     @server.tool(annotations=mutate)
     @tool_safe
     def noticer_get_verified_receipt(check_label: str, decision_ref: str) -> dict[str, Any]:
-        """Verify the evidence for the saved condition before deciding whether the next workflow step is supported.
+        """Verify the signed receipt locally. Only fresh, valid PROVED (control matched) supports continuing. DISPROVED or INCONCLUSIVE means the result isn't confirmed. The signature authenticates the issuer, not source honesty.
         
         Use a stable caller-local decision_ref for that intended next action. Verifies two byte-identical
         retrievals against the independently pinned key, order, saved scope, freshness and package binding.

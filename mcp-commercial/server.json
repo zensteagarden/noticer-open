@@ -15,7 +15,7 @@
       "registryType": "mcpb",
       "identifier": "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.2-dev.20261016/noticer-commercial-mcp-0.3.2-dev.20261016.mcpb",
       "version": "0.3.2-dev.20261016",
-      "fileSha256": "1dc9cc4ef52873e196d4bf8101406d6dc93e4c314ba294c59b2777c19b450c74",
+      "fileSha256": "b3e4edd716b2de4ac3f0ca28e2a1aaab2f1240c97d65ea1823d83b29f76620b6",
       "transport": {
         "type": "stdio"
       }

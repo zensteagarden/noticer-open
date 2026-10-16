@@ -3,7 +3,7 @@
 Version 0.3.2-dev.20261016 is a published public preview: [GitHub release](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-commercial-mcp-v0.3.2-dev.20261016) and [MCP Registry record](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/0.3.2-dev.20261016). Linux with uv is tested. macOS runtime is untested. Native Windows is unsupported. Installing dependencies downloads pinned `mcp==1.29.0` and `cryptography==50.0.0` from PyPI; only do that with the machine owner's OK.
 
 1. Get `uv`, `curl`, `unzip`, `sha256sum` and Python 3.10+.
-2. Download the MCPB, verify SHA256 `1dc9cc4ef52873e196d4bf8101406d6dc93e4c314ba294c59b2777c19b450c74`, and unzip it into a writable directory. The exact commands are in [AGENT_GUIDE.md › Linux with uv](../AGENT_GUIDE.md).
+2. Download the MCPB, verify SHA256 `b3e4edd716b2de4ac3f0ca28e2a1aaab2f1240c97d65ea1823d83b29f76620b6`, and unzip it into a writable directory. The exact commands are in [AGENT_GUIDE.md › Linux with uv](../AGENT_GUIDE.md).
 3. Launch with `NOTICER_COMMERCIAL_CONFIG_FILE= uv run --frozen --quiet --directory <install-dir> sales_mcp.py`, or add the `mcpServers` entry from the agent guide to your MCP host. Leave the advanced config empty for guided setup. Initializing and listing the ten tools need no existing credential or config file.
 
 Working from a source checkout instead of the MCPB? `python3 install_local.py` still creates an isolated `.venv` from the pinned wheels (`--check` verifies without installing), and `launch_local.py` starts the adapter.
