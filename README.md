@@ -8,7 +8,7 @@ Use Noticer right after a handoff, when your tool reported success and your next
 
 Not for private or login-only data, HTML, ranges or "contains", whole-site audits or ongoing monitoring. If a direct fetch already answers your question and nobody needs independent evidence, you don't need Noticer.
 
-After 5 free checks, each completed check is $1, paid by card through Stripe Checkout or with an existing Link wallet. INCONCLUSIVE is free.
+After 5 free checks, each eligible check (PROVED or DISPROVED) is USD 1.00; INCONCLUSIVE is free. Pay by card through Stripe Checkout or with an existing Link wallet.
 
 **Install (MCP, local stdio, Linux with uv):**
 
