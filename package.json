@@ -1,6 +1,6 @@
 {
   "name": "noticer-public-verifier",
-  "version": "0.1.0",
+  "version": "0.1.1-dev.20261009",
   "private": true,
   "description": "Intention-guided, offline verification of disclosed evidence packets, exact-text checks and signed receipts.",
   "type": "module",
@@ -37,7 +37,8 @@
     "AGENT_GUIDE.md",
     "src/intention.mjs",
     "docs/INTENTION_GUIDE.md",
-    "docs/SUCCESS_CONTRACT.md"
+    "docs/SUCCESS_CONTRACT.md",
+    "docs/WALKTHROUGH.md"
   ],
   "exports": {
     ".": "./src/index.mjs",

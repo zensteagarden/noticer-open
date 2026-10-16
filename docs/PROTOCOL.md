@@ -40,7 +40,9 @@ Results expose `policy_id`, `policy_version`, `vocabulary`, `verdict`, `complete
 
 For `verify`, exit 0 means ALLOW for the chosen policy; 1 means DENY; 2 means INCONCLUSIVE. Invocation errors use 64 and process failures use 70. `explain` only renders result text. It authenticates nothing. Never use the same interpretation for all commands.
 
-`input_commitment` binds the manifest, supplied or missing evidence, attestations, policy, selected context, verifier source digest and resource limits. `evaluation_digest` identifies the resulting evaluation without claiming that the Node binary or whole operating environment was reproduced. Policies that do not use time ignore the process clock.
+`input_commitment` binds the manifest, supplied or missing evidence, attestations, policy, selected context, verifier source digest and resource limits. When the caller supplies `expectedText`, that string is also bound as `caller_expected_text`. `evaluation_digest` identifies the resulting evaluation without claiming that the Node binary or whole operating environment was reproduced. Policies that do not use time ignore the process clock.
+
+The CLI accepts `--expected-text <text>` for `artifact.text.exact.v1`. Use it when a Success Contract declared an expected string. Omit it only when you want the packet’s own claim compared to its bytes.
 
 ## Signed receipts and explicit trust
 

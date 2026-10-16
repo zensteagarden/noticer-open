@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+import { verifyPacket } from "./verify.mjs";
 
 const CONTRACT_SCHEMA = "noticer.success-contract.v1";
 const MAX_TEXT = 4096;
@@ -129,6 +130,21 @@ export function renderSuccessContract(contract) {
     `Status: ${value.status}`,
     "Authorization: none granted by this contract.",
   ].join("\n");
+}
+
+export function verificationOptionsFromContract(contract) {
+  const value = validateSuccessContract(contract);
+  const options = {
+    policyId: value.observable_proxy.policy_id,
+  };
+  if (Object.hasOwn(value.observable_proxy, "expected_text")) {
+    options.expectedText = value.observable_proxy.expected_text;
+  }
+  return options;
+}
+
+export function verifyAgainstContract(loaded, contract) {
+  return verifyPacket(loaded, verificationOptionsFromContract(contract));
 }
 
 export const SUCCESS_CONTRACT_SCHEMA_VERSION = CONTRACT_SCHEMA;

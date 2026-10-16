@@ -10,7 +10,7 @@ Preserve original evidence bytes, deterministic decisions and explicit trust. Ne
 
 Prefer plain language, meaningful text output and keyboard-friendly tooling. Color must not carry the only meaning. Automated checks are not manual screen-reader validation.
 
-Do not contribute secrets, customer evidence, private service code or internal investigation mechanics. Only contribute code and data you have permission to share. The public project uses Apache-2.0; retain its attribution notices. This starter has no configured remote submission destination yet.
+Do not contribute secrets, customer evidence, private service code or internal investigation mechanics. Only contribute code and data you have permission to share. The public project uses Apache-2.0; retain its attribution notices. Open pull requests on the public GitHub repository `zensteagarden/noticer-open`.
 
 ## Intention-guided contributions
 
