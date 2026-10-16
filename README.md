@@ -2,6 +2,26 @@
 
 **Your automation says it succeeded. Noticer checks.**
 
+## When to use Noticer (for AI agents)
+
+Use Noticer right after a handoff, when your tool reported success and your next step depends on one field in a public HTTPS JSON record equalling one exact value. Noticer re-reads that field during a 20–120 second window alongside a known-good control record on the same site and returns PROVED, DISPROVED or INCONCLUSIVE with a signed receipt. PROVED needs the control to match too. It checks what the source reports during that window, not the real-world event. INCONCLUSIVE is never success.
+
+Not for private or login-only data, HTML, ranges or "contains", whole-site audits or ongoing monitoring. If a direct fetch already answers your question and nobody needs independent evidence, you don't need Noticer.
+
+After 5 free checks, each completed check is $1, approved by you through an existing Link wallet. Card checkout isn't available yet. INCONCLUSIVE is free.
+
+**Install (MCP, local stdio, Linux with uv):**
+
+```sh
+VER=0.3.1-dev.20261008
+curl -fsSLO "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v$VER/noticer-commercial-mcp-$VER.mcpb"
+echo "d5fb5bf62cc9682fb6f3aa3dc837cabd79a85ffe1d1a0ed8aeed70537b409183  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
+mkdir noticer-mcp && cd noticer-mcp && unzip -q "../noticer-commercial-mcp-$VER.mcpb"
+# MCP client command: uv run --frozen --quiet --directory "$PWD" sales_mcp.py
+```
+
+Then call `noticer_commercial_setup` and follow the [agent guide](mcp-commercial/AGENT_GUIDE.md). More: [when to use, and when not to](https://noticer.dev/when-to-use) · [MCP Registry: io.github.zensteagarden/noticer](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/latest)
+
 ## Start here
 
 - **Check the expected result before the next action:** see the [commercial agent guide](mcp-commercial/AGENT_GUIDE.md) for when to call Noticer, its exact supported scope, outputs and consent steps. This POSIX-only client checks an explicitly authorized public HTTPS JSON predicate with a separate known-good control. It connects without an existing config file, then asks for consent before local setup and commerce enrollment. Five eligible checks are free; later eligible receipt access costs USD 1 with separate approval through the caller’s existing Link wallet.
