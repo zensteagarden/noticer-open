@@ -392,7 +392,7 @@ def make_server(adapter):
                                   amount: int, currency: str, confirmed: bool) -> dict[str, Any]:
         """Get exact one-order payment terms only after the owner approves USD 1 for an eligible saved receipt.
         
-        This prepares a public challenge, never a charge. Merchant and network must come from independently
+        This prepares a public challenge, never a charge, and needs no wallet. Merchant and network must come from independently
         verified provider configuration. Returns bound challenge/endpoint metadata; order capability stays private.
         The separate optional existing-Link payment tool requires wallet approval. Never put SPTs, payment
         credentials or keys into tool arguments, chat, model output or logs."""
