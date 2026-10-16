@@ -1,0 +1,8 @@
+{
+  "alg": "EdDSA",
+  "crv": "Ed25519",
+  "kid": "noticer-82e8c8f8b588173a79cd",
+  "kty": "OKP",
+  "use": "sig",
+  "x": "Ns2oe26xZrRYKXs-TqOUv1W6ZUeao1GCoG2SypcN2CU"
+}

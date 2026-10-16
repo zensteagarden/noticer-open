@@ -1,0 +1,9 @@
+Noticer Public Verifier
+Copyright 2026 John Daly
+
+This distribution contains the public evidence verifier and synthetic examples.
+It does not contain the private service or private investigation system.
+
+
+Commercial buyer connector and relying-party receipt gate additions, 2026.
+The Apache-2.0 scope covers these distributed client files only; private platform code is excluded.
