@@ -13,9 +13,9 @@ After 5 free checks, each completed check is $1, approved by you through an exis
 **Install (MCP, local stdio, Linux with uv):**
 
 ```sh
-VER=0.3.1-dev.20261008
+VER=0.3.2-dev.20261016
 curl -fsSLO "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v$VER/noticer-commercial-mcp-$VER.mcpb"
-echo "d5fb5bf62cc9682fb6f3aa3dc837cabd79a85ffe1d1a0ed8aeed70537b409183  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
+echo "cc34e591327b60362923f895b710ccc43264317a01b9dfc0c1dbd3393390d7fb  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
 mkdir noticer-mcp && cd noticer-mcp && unzip -q "../noticer-commercial-mcp-$VER.mcpb"
 # MCP client command: uv run --frozen --quiet --directory "$PWD" sales_mcp.py
 ```
