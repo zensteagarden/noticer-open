@@ -28,7 +28,7 @@ Then call `noticer_commercial_setup` and follow the [agent guide](mcp-commercial
 - **Existing operator-provisioned integrations:** [MCP 0.1.0](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-mcp-v0.1.0) remains the legacy owner-API connector. Its [installation guide](https://github.com/zensteagarden/noticer-open/releases/download/noticer-mcp-v0.1.0/README.md) requires assigned API access; it does not provide the new self-service commerce flow.
 - **Try the offline verifier:** follow the Node.js quick start below. It checks supplied evidence packets locally without an account, API key or network access.
 
-The [0.3.1 commercial release](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-commercial-mcp-v0.3.1-dev.20261008) includes clearer agent-facing instructions and tool descriptions. Follow the agent guide for installation.
+The [0.3.2 commercial release](https://github.com/zensteagarden/noticer-open/releases/tag/noticer-commercial-mcp-v0.3.2-dev.20261016) (pre-release; MCP Registry version 0.3.2-dev.20261016) includes clearer agent-facing instructions and tool descriptions. Follow the agent guide for installation.
 
 The commercial client has passed fresh Linux/UV installation, offline protocol checks, and mocked end-to-end payment tests. No real buyer payment is claimed. macOS runtime testing remains outstanding; native Windows is unsupported. Keep credentials out of chat and review the frozen scope before running a check. A verified receipt never executes a downstream action.
 
