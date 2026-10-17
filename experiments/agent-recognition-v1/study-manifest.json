@@ -1,0 +1,16 @@
+{
+  "study_version": "1",
+  "state": "NOT_RUN",
+  "release": "0.3.2-dev.20261016",
+  "random_seed": 20261016,
+  "trials": 48,
+  "arms": [
+    "A",
+    "B"
+  ],
+  "instructions_sha256": {
+    "A": "c73c00099243843e48b71f66f38f0fcd013330b657329044a76c4c20f5ccef1e",
+    "B": "fe71882b9836b30bf468d65a7dc9e69afbaa676abfd95b42d532fdf2d1dc7f37"
+  },
+  "task_sha256": "d9a3afea41cbd7314f6913e518a254d343efbe08643ec3c4bbdd8c68d0430dbe"
+}
