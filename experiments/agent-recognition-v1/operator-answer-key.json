@@ -1,0 +1,34 @@
+{
+  "build": {
+    "expected_decision": "use",
+    "reason": "One exact public JSON condition; evidence independently required; suitable known-good control."
+  },
+  "status": {
+    "expected_decision": "use",
+    "reason": "Eligible public exact equality and known-good same-site control."
+  },
+  "count": {
+    "expected_decision": "use",
+    "reason": "Control expected value may differ; exact type/value and identity required."
+  },
+  "private": {
+    "expected_decision": "skip",
+    "reason": "Private mailbox and actual delivery are unsupported."
+  },
+  "direct": {
+    "expected_decision": "skip",
+    "reason": "No additional independent evidence needed; avoid unnecessary Noticer use."
+  },
+  "no-control": {
+    "expected_decision": "clarify",
+    "reason": "Ask for or establish a genuinely known-good control; do not invent one or run yet."
+  },
+  "causality": {
+    "expected_decision": "skip",
+    "reason": "Current field equality cannot prove causation or the previous state."
+  },
+  "payment": {
+    "expected_decision": "hold",
+    "reason": "No replacement authorization or repeat payment after uncertain submission."
+  }
+}
