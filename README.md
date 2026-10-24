@@ -13,6 +13,7 @@ After 5 free checks, each eligible check (PROVED or DISPROVED) is USD 1.00; INCO
 **Install (MCP, local stdio, Linux with uv):**
 
 ```sh
+set -eu
 VER=0.3.2-dev.20261016
 curl -fsSLO "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v$VER/noticer-commercial-mcp-$VER.mcpb"
 echo "cc34e591327b60362923f895b710ccc43264317a01b9dfc0c1dbd3393390d7fb  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
@@ -20,7 +21,7 @@ mkdir noticer-mcp && cd noticer-mcp && unzip -q "../noticer-commercial-mcp-$VER.
 # MCP client command: uv run --frozen --quiet --directory "$PWD" sales_mcp.py
 ```
 
-Then call `noticer_commercial_setup` and follow the [agent guide](mcp-commercial/AGENT_GUIDE.md). More: [when to use, and when not to](https://noticer.dev/when-to-use) · [MCP Registry: io.github.zensteagarden/noticer](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/latest)
+Then call `noticer_commercial_setup` and follow the [agent guide](mcp-commercial/AGENT_GUIDE.md). More: [when to use, and when not to](https://noticer.dev/when-to-use) · [MCP Registry: io.github.zensteagarden/noticer](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/0.3.2-dev.20261016)
 
 ## Start here
 
@@ -32,7 +33,7 @@ The [0.3.2 commercial release](https://github.com/zensteagarden/noticer-open/rel
 
 The commercial client has passed fresh Linux/UV installation, offline protocol checks, and mocked end-to-end payment tests. No real buyer payment is claimed. macOS runtime testing remains outstanding; native Windows is unsupported. Keep credentials out of chat and review the frozen scope before running a check. A verified receipt never executes a downstream action.
 
-[Current commercial MCP Registry listing](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/latest) · [Setup help](mailto:hello@noticer.io)
+[Current commercial MCP Registry listing](https://registry.modelcontextprotocol.io/v0.1/servers/io.github.zensteagarden%2Fnoticer/versions/0.3.2-dev.20261016) · [Setup help](mailto:hello@noticer.io)
 
 ## Offline public verifier
 
