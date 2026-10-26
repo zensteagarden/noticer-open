@@ -97,7 +97,7 @@ Do not use it for private or authenticated APIs, arbitrary web pages, arbitrary 
 
 ## Install and connect
 
-[Download the commercial MCPB](https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.1-dev.20261008/noticer-commercial-mcp-0.3.1-dev.20261008.mcpb) into an MCPB 0.4 host with UV support. The current published install is version 0.3.1-dev.20261008, with updated runtime instructions and tool descriptions. Scope, prices and approval boundaries are unchanged.
+[Download the commercial MCPB](https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v0.3.2-dev.20261016/noticer-commercial-mcp-0.3.2-dev.20261016.mcpb) into an MCPB 0.4 host with UV support. This guide installs the published prerelease 0.3.2-dev.20261016, matching the repository README. It corrects the server identity to `noticer` / `0.3.2-dev.20261016` and retains the existing runtime guidance. Scope, prices and approval boundaries are unchanged.
 
 Verify the MCPB SHA256 against the exact published Registry record or release checksums before installation.
 
@@ -106,11 +106,11 @@ Verify the MCPB SHA256 against the exact published Registry record or release ch
 Requires `uv`, `curl`, `unzip`, `sha256sum` and Python 3.10+. The install directory must be writable, because uv creates `.venv` inside it on first run.
 
 ```sh
-VER=0.3.1-dev.20261008
+VER=0.3.2-dev.20261016
 DIR="$HOME/.local/share/noticer-mcp/$VER"
 mkdir -p "$DIR" && cd "$DIR"
 curl -fsSLO "https://github.com/zensteagarden/noticer-open/releases/download/noticer-commercial-mcp-v$VER/noticer-commercial-mcp-$VER.mcpb"
-echo "d5fb5bf62cc9682fb6f3aa3dc837cabd79a85ffe1d1a0ed8aeed70537b409183  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
+echo "cc34e591327b60362923f895b710ccc43264317a01b9dfc0c1dbd3393390d7fb  noticer-commercial-mcp-$VER.mcpb" | sha256sum -c -
 unzip -q "noticer-commercial-mcp-$VER.mcpb"
 ```
 
@@ -140,7 +140,7 @@ Replace `/home/YOU` with your absolute home directory, since hosts don't expand 
   "mcpServers": {
     "noticer": {
       "command": "uv",
-      "args": ["run", "--frozen", "--quiet", "--directory", "/home/YOU/.local/share/noticer-mcp/0.3.1-dev.20261008", "sales_mcp.py"],
+      "args": ["run", "--frozen", "--quiet", "--directory", "/home/YOU/.local/share/noticer-mcp/0.3.2-dev.20261016", "sales_mcp.py"],
       "env": { "NOTICER_COMMERCIAL_CONFIG_FILE": "" }
     }
   }
@@ -200,7 +200,7 @@ After the free allowance, an eligible completed receipt costs USD 1. There is no
 
 ### Seller identifiers and wallet requirement
 
-With the public 0.3.1 client, paying needs an existing Link account with a saved card (the Link CLI currently supports US and Canadian Link accounts only), the Link CLI installed and signed in on the same computer, and your owner's approval of each USD 1 request in Link within 30 minutes. Install the Link CLI and sign in to it before you first run local setup, then turn on Link discovery in that first setup: if setup already ran without finding it, running it again keeps the old settings. The server accepts a Stripe shared payment token issued for that exact USD 1 payment; ways to get one other than the Link CLI are untested. A paid check by an outside buyer has not been completed yet.
+With the public 0.3.2 client, paying needs an existing Link account with a saved card (the Link CLI currently supports US and Canadian Link accounts only), the Link CLI installed and signed in on the same computer, and your owner's approval of each USD 1 request in Link within 30 minutes. Install the Link CLI and sign in to it before you first run local setup, then turn on Link discovery in that first setup: if setup already ran without finding it, running it again keeps the old settings. The server accepts a Stripe shared payment token issued for that exact USD 1 payment; ways to get one other than the Link CLI are untested. A paid check by an outside buyer has not been completed yet.
 
 `noticer_payment_challenge` asks for two public seller identifiers. Read them from `mpp.payee_account_id` and `mpp.payment_network_id` in the offer file `https://noticer-mpp-ee54698-production.up.railway.app/.well-known/noticer.json`. For reference they are:
 
@@ -218,6 +218,6 @@ MCP buyers verify receipts with noticer_get_verified_receipt; the standalone ver
 
 ## Discovery limits
 
-The official Registry publishes installation metadata for downstream catalogs. Its search filters server names, not description keywords. Catalog ingestion, installation, model selection and recommendations are separate steps; this guide makes the supported use clearer but does not guarantee traffic or automatic discovery. The 0.3.1 release improves server instructions and tool descriptions without changing tool names, input/output schemas, verification/payment behavior or prices.
+The official Registry publishes installation metadata for downstream catalogs. Its search filters server names, not description keywords. Catalog ingestion, installation, model selection and recommendations are separate steps; this guide makes the supported use clearer but does not guarantee traffic or automatic discovery. The 0.3.2 prerelease corrects the reported server identity and retains the post-handoff guidance. This documentation update does not establish live paid settlement or change verification/payment behavior or prices.
 
 Sources for discovery behavior: [official Registry API](https://github.com/modelcontextprotocol/registry/blob/main/docs/reference/api/official-registry-api.md), [Registry ecosystem](https://modelcontextprotocol.io/registry/about), and [MCP tool discovery](https://modelcontextprotocol.io/specification/2025-11-25/server/tools).
